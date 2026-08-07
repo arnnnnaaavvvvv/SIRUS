@@ -1,0 +1,34 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy packages and requirements
+COPY packages /app/packages
+COPY apps/api-gateway /app/apps/api-gateway
+
+# Install python dependencies in editable mode
+RUN pip install --no-cache-dir \
+    fastapi \
+    uvicorn[standard] \
+    pydantic[email] \
+    sqlalchemy[asyncio] \
+    asyncpg \
+    redis \
+    cryptography \
+    firebase-admin \
+    structlog \
+    httpx \
+    pandas \
+    numpy
+
+ENV PYTHONPATH="/app/packages/common-models/src:/app/packages/database/src:/app/packages/broker-adapters/src:/app/packages/risk-core/src:/app/packages/strategy-sdk/src:/app/apps/api-gateway/src"
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

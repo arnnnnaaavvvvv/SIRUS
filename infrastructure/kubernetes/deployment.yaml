@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sirus-secrets
+  namespace: default
+type: Opaque
+stringData:
+  DATABASE_URL: "postgresql+asyncpg://postgres:secure_k8s_password@timescale-db-service:5432/trading_db"
+  REDIS_URL: "redis://redis-service:6379/0"
+  MASTER_ENCRYPTION_KEY: "k8s-vault-managed-master-encryption-key-32b"
+  FIREBASE_SERVICE_ACCOUNT_JSON: "/etc/firebase/service-account.json"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sirus-api-gateway
+  labels:
+    app: sirus-api-gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sirus-api-gateway
+  template:
+    metadata:
+      labels:
+        app: sirus-api-gateway
+    spec:
+      containers:
+      - name: api-gateway
+        image: sirus/api-gateway:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - secretRef:
+            name: sirus-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sirus-api-gateway-service
+spec:
+  selector:
+    app: sirus-api-gateway
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP

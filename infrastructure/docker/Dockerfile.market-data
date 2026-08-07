@@ -1,0 +1,22 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
+
+COPY packages /app/packages
+COPY apps/market-data-service /app/apps/market-data-service
+
+RUN pip install --no-cache-dir \
+    pydantic[email] \
+    sqlalchemy[asyncio] \
+    asyncpg \
+    redis \
+    cryptography \
+    httpx \
+    pandas \
+    numpy
+
+ENV PYTHONPATH="/app/packages/common-models/src:/app/packages/database/src:/app/packages/broker-adapters/src:/app/apps/market-data-service/src"
+
+CMD ["python", "main.py"]

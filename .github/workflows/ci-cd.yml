@@ -1,0 +1,45 @@
+name: SIRUS CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest flake8 pydantic sqlalchemy asyncpg redis cryptography firebase-admin httpx pandas numpy
+
+    - name: Run Linting
+      run: |
+        flake8 apps/ packages/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    - name: Run Tests
+      run: |
+        pytest -v
+
+  build-and-push:
+    needs: test-and-lint
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build API Gateway Docker Image
+      run: |
+        docker build -t sirus/api-gateway:latest -f infrastructure/docker/Dockerfile.api-gateway .

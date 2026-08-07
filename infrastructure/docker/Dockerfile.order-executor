@@ -1,0 +1,20 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
+
+COPY packages /app/packages
+COPY apps/order-executor /app/apps/order-executor
+
+RUN pip install --no-cache-dir \
+    pydantic[email] \
+    sqlalchemy[asyncio] \
+    asyncpg \
+    redis \
+    cryptography \
+    httpx
+
+ENV PYTHONPATH="/app/packages/common-models/src:/app/packages/database/src:/app/packages/broker-adapters/src:/app/packages/risk-core/src:/app/apps/order-executor/src"
+
+CMD ["python", "main.py"]

@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  postgres-timescale:
+    image: timescale/timescaledb:latest-pg16
+    container_name: sirus_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: trading_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: sirus_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.api-gateway
+    container_name: sirus_api_gateway
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgrespassword@postgres-timescale:5432/trading_db
+      - REDIS_URL=redis://redis:6379/0
+      - DISABLE_FIREBASE_AUTH=true
+      - MASTER_ENCRYPTION_KEY=production-secret-encryption-key-32bytes!!
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres-timescale:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  market-data-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.market-data
+    container_name: sirus_market_data
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgrespassword@postgres-timescale:5432/trading_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres-timescale
+      - redis
+
+  order-executor:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.order-executor
+    container_name: sirus_order_executor
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgrespassword@postgres-timescale:5432/trading_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres-timescale
+      - redis
+
+  web-frontend:
+    build:
+      context: ./apps/web-frontend
+      dockerfile: Dockerfile
+    container_name: sirus_web_frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_WS_URL=ws://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway
+
+volumes:
+  postgres_data:
+  redis_data:
