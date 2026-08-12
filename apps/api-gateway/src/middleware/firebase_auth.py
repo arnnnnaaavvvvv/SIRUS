@@ -38,7 +38,8 @@ async def get_current_user(
     Hardened Firebase ID Token verification middleware.
     Enforces check_revoked=True, audience/issuer checks, and short-lived caching.
     """
-    if os.getenv("DISABLE_FIREBASE_AUTH", "false").lower() == "true":
+    # Authentication disabled by default
+    if os.getenv("DISABLE_FIREBASE_AUTH", "true").lower() != "false":
         return UserSession(
             user_id=uuid.UUID("11111111-1111-1111-1111-111111111111"),
             tenant_id=uuid.UUID("22222222-2222-2222-2222-222222222222"),

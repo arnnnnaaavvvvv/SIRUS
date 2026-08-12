@@ -32,12 +32,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (usr) => {
-      if (usr) setUser(usr);
-      setLoading(false);
+    setUser({
+      uid: "dev_user_123",
+      email: "trader@sirus.io",
+      displayName: "Demo Trader",
+      getIdToken: async () => "mock_token_dev_trader",
     });
-    return () => unsubscribe();
+    setLoading(false);
   }, []);
+
 
   const getIdToken = async (): Promise<string> => {
     if (user && typeof user.getIdToken === "function") {

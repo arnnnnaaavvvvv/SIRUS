@@ -15,9 +15,11 @@ from routers import (
     orders_router,
     positions_router,
     ws_router,
+    copilot,
 )
 
 logger = structlog.get_logger()
+
 
 
 @asynccontextmanager
@@ -78,6 +80,7 @@ app.include_router(backtest_router.router)
 app.include_router(orders_router.router)
 app.include_router(positions_router.router)
 app.include_router(ws_router.router)
+app.include_router(copilot.router)
 
 
 @app.get("/")

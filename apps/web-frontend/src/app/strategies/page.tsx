@@ -126,7 +126,14 @@ export default function StrategiesPage() {
                 <option value="MA_CROSSOVER">Moving Average Crossover</option>
                 <option value="RSI_MEAN_REVERSION">RSI Mean Reversion</option>
                 <option value="MOMENTUM_BREAKOUT">Momentum Breakout</option>
+                <option value="MACD_TREND">MACD Trend Following</option>
+                <option value="BOLLINGER_BANDS">Bollinger Bands Reversion</option>
+                <option value="VWAP_STRATEGY">Institutional VWAP Cross</option>
+                <option value="STOCHASTIC_OSCILLATOR">Stochastic %K/%D Momentum</option>
+                <option value="ATR_BREAKOUT">ATR Volatility Expansion</option>
+                <option value="DYNAMIC_AST">Visual No-Code AST Strategy</option>
               </select>
+
             </div>
 
             <div className="grid grid-cols-2 gap-4">

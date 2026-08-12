@@ -10,7 +10,17 @@ from common_models import (
     OrderSide,
     StrategyType,
 )
-from .strategies import MovingAverageCrossover, RSIMeanReversion, MomentumBreakout
+from .strategies import (
+    MovingAverageCrossover,
+    RSIMeanReversion,
+    MomentumBreakout,
+    MACDStrategy,
+    BollingerBandsStrategy,
+    VWAPStrategy,
+    StochasticOscillator,
+    ATRBreakout,
+)
+from .ast_compiler import ASTCompiler
 
 
 class BacktestingEngine:
@@ -27,8 +37,25 @@ class BacktestingEngine:
             return RSIMeanReversion(params)
         elif st == StrategyType.MOMENTUM_BREAKOUT:
             return MomentumBreakout(params)
+        elif st == StrategyType.MACD_TREND:
+            return MACDStrategy(params)
+        elif st == StrategyType.BOLLINGER_BANDS:
+            return BollingerBandsStrategy(params)
+        elif st == StrategyType.VWAP_STRATEGY:
+            return VWAPStrategy(params)
+        elif st == StrategyType.STOCHASTIC_OSCILLATOR:
+            return StochasticOscillator(params)
+        elif st == StrategyType.ATR_BREAKOUT:
+            return ATRBreakout(params)
+        elif st == StrategyType.DYNAMIC_AST:
+            ast_schema = params.get("ast", {
+                "indicators": [{"name": "fast_ma", "type": "EMA", "params": {"window": 9}}, {"name": "slow_ma", "type": "EMA", "params": {"window": 21}}],
+                "rules": [{"action": "BUY", "condition": {"type": "CROSS_ABOVE", "left": "fast_ma", "right": "slow_ma"}}]
+            })
+            return ASTCompiler.compile(ast_schema)
         else:
             raise ValueError(f"Unsupported strategy type: {st}")
+
 
     def run(self, historical_df: pd.DataFrame) -> BacktestResult:
         """
