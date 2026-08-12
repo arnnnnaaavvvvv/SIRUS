@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
 import { useAuth } from "../../context/AuthContext";
-import { Sliders, Play, CheckCircle2, ShieldAlert, BarChart2, Activity } from "lucide-react";
+import { Sliders, Play, CheckCircle2, Cpu, Zap, Activity, Award, Layers } from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 
 interface BacktestResultData {
@@ -92,40 +92,60 @@ export default function StrategiesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16]">
+    <div className="min-h-screen">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Quantitative Strategy Builder</h1>
-          <p className="text-xs text-gray-400">Configure parameters, run backtests, and deploy automated execution</p>
+        {/* Header Title Banner */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 glass-card p-6 rounded-3xl border border-slate-800/80">
+          <div>
+            <div className="flex items-center space-x-3 mb-1">
+              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">
+                Quantitative Strategy Engine
+              </h1>
+              <span className="px-3 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-1">
+                <Zap className="w-3 h-3" /> Sub-100ms Pipeline
+              </span>
+            </div>
+            <p className="text-xs text-slate-400">
+              Awwwards 3D interactive canvas active. Configure quantitative parameters, run Walk-Forward & Monte Carlo simulations, and deploy automated bots.
+            </p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs font-mono text-cyan-400 flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-cyan-400" /> GPU Vectorized
+            </span>
+          </div>
         </div>
 
         {msg && (
-          <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold flex items-center space-x-2">
-            <CheckCircle2 className="w-4 h-4" />
+          <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold flex items-center space-x-2 shadow-lg shadow-cyan-500/10">
+            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
             <span>{msg}</span>
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Configuration Form Panel */}
-          <div className="glass-card rounded-2xl p-6 border border-gray-800 space-y-6">
-            <div className="flex items-center space-x-2 border-b border-gray-800 pb-4">
-              <Sliders className="w-5 h-5 text-blue-400" />
+          <div className="glass-card rounded-3xl p-6 border border-slate-800/80 space-y-6">
+            <div className="flex items-center space-x-2 border-b border-slate-800/80 pb-4">
+              <Sliders className="w-5 h-5 text-cyan-400" />
               <h2 className="text-base font-bold text-white">Strategy Parameters</h2>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-300 mb-1">Strategy Algorithm</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
+                <span>Strategy Algorithm</span>
+                <span className="text-[10px] text-cyan-400 font-mono">9 Available</span>
+              </label>
               <select
                 value={strategyType}
                 onChange={(e) => setStrategyType(e.target.value)}
-                className="w-full bg-gray-900 border border-gray-800 rounded-xl py-2.5 px-3 text-sm text-white focus:border-blue-500"
+                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-3.5 text-sm text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-medium transition-all"
               >
                 <option value="MA_CROSSOVER">Moving Average Crossover</option>
                 <option value="RSI_MEAN_REVERSION">RSI Mean Reversion</option>
-                <option value="MOMENTUM_BREAKOUT">Momentum Breakout</option>
+                <option value="MOMENTUM_BREAKOUT">Donchian Momentum Breakout</option>
                 <option value="MACD_TREND">MACD Trend Following</option>
                 <option value="BOLLINGER_BANDS">Bollinger Bands Reversion</option>
                 <option value="VWAP_STRATEGY">Institutional VWAP Cross</option>
@@ -133,26 +153,25 @@ export default function StrategiesPage() {
                 <option value="ATR_BREAKOUT">ATR Volatility Expansion</option>
                 <option value="DYNAMIC_AST">Visual No-Code AST Strategy</option>
               </select>
-
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-300 mb-1">Symbol</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Symbol Pair</label>
                 <input
                   type="text"
                   value={symbol}
                   onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-                  className="w-full bg-gray-900 border border-gray-800 rounded-xl py-2 px-3 text-sm text-white uppercase font-mono"
+                  className="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 px-3 text-sm text-white uppercase font-mono tracking-wider focus:border-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-300 mb-1">Broker Venue</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Broker Venue</label>
                 <select
                   value={broker}
                   onChange={(e) => setBroker(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-800 rounded-xl py-2 px-3 text-sm text-white"
+                  className="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 px-3 text-sm text-white focus:border-cyan-500 font-medium"
                 >
                   <option value="alpaca">Alpaca (Equities)</option>
                   <option value="kucoin">KuCoin (Crypto)</option>
@@ -163,9 +182,9 @@ export default function StrategiesPage() {
             {/* Sliders */}
             <div className="space-y-4 pt-2">
               <div>
-                <div className="flex justify-between text-xs text-gray-300 mb-1">
-                  <span>Fast MA Window</span>
-                  <span className="font-mono text-blue-400 font-bold">{shortWindow} Bars</span>
+                <div className="flex justify-between text-xs text-slate-300 mb-1.5">
+                  <span>Fast Indicator Window</span>
+                  <span className="font-mono text-cyan-400 font-bold">{shortWindow} Bars</span>
                 </div>
                 <input
                   type="range"
@@ -173,14 +192,14 @@ export default function StrategiesPage() {
                   max="50"
                   value={shortWindow}
                   onChange={(e) => setShortWindow(Number(e.target.value))}
-                  className="w-full h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                 />
               </div>
 
               <div>
-                <div className="flex justify-between text-xs text-gray-300 mb-1">
-                  <span>Slow MA Window</span>
-                  <span className="font-mono text-blue-400 font-bold">{longWindow} Bars</span>
+                <div className="flex justify-between text-xs text-slate-300 mb-1.5">
+                  <span>Slow Indicator Window</span>
+                  <span className="font-mono text-cyan-400 font-bold">{longWindow} Bars</span>
                 </div>
                 <input
                   type="range"
@@ -188,14 +207,14 @@ export default function StrategiesPage() {
                   max="200"
                   value={longWindow}
                   onChange={(e) => setLongWindow(Number(e.target.value))}
-                  className="w-full h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                 />
               </div>
 
               <div>
-                <div className="flex justify-between text-xs text-gray-300 mb-1">
-                  <span>Stop Loss Limit</span>
-                  <span className="font-mono text-red-400 font-bold">{stopLossPct}%</span>
+                <div className="flex justify-between text-xs text-slate-300 mb-1.5">
+                  <span>Pre-Trade Stop Loss Limit</span>
+                  <span className="font-mono text-rose-400 font-bold">{stopLossPct}%</span>
                 </div>
                 <input
                   type="range"
@@ -204,7 +223,7 @@ export default function StrategiesPage() {
                   step="0.5"
                   value={stopLossPct}
                   onChange={(e) => setStopLossPct(Number(e.target.value))}
-                  className="w-full h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-red-500"
+                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-rose-500"
                 />
               </div>
             </div>
@@ -213,15 +232,15 @@ export default function StrategiesPage() {
               <button
                 onClick={handleRunBacktest}
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center space-x-2"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm transition-all shadow-xl shadow-cyan-500/25 flex items-center justify-center space-x-2 ring-1 ring-white/20"
               >
                 <Play className="w-4 h-4 fill-white" />
-                <span>{loading ? "Simulating..." : "Run Historical Backtest"}</span>
+                <span>{loading ? "Simulating Vectorized Engine..." : "Run Historical Backtest"}</span>
               </button>
 
               <button
                 onClick={handleSaveStrategy}
-                className="w-full py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 font-semibold text-sm transition-colors"
+                className="w-full py-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800/90 border border-slate-800 text-slate-200 font-bold text-sm transition-all shadow-sm"
               >
                 Save & Deploy Strategy
               </button>
@@ -232,45 +251,54 @@ export default function StrategiesPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Analytics Header Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="glass-card rounded-xl p-4 border border-gray-800">
-                <span className="text-xs text-gray-400">Win Rate</span>
-                <div className="text-xl font-bold text-emerald-400 mt-1 font-mono">{backtestResult.win_rate}%</div>
+              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+                <span className="text-xs text-slate-400 font-medium">Win Rate</span>
+                <div className="text-2xl font-black text-emerald-400 mt-1 font-mono">{backtestResult.win_rate}%</div>
+                <div className="absolute right-3 top-3 opacity-10 text-emerald-400"><Award className="w-8 h-8" /></div>
               </div>
-              <div className="glass-card rounded-xl p-4 border border-gray-800">
-                <span className="text-xs text-gray-400">Total Return</span>
-                <div className="text-xl font-bold text-blue-400 mt-1 font-mono">+{backtestResult.return_pct}%</div>
+              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+                <span className="text-xs text-slate-400 font-medium">Total Return</span>
+                <div className="text-2xl font-black text-cyan-400 mt-1 font-mono">+{backtestResult.return_pct}%</div>
+                <div className="absolute right-3 top-3 opacity-10 text-cyan-400"><Zap className="w-8 h-8" /></div>
               </div>
-              <div className="glass-card rounded-xl p-4 border border-gray-800">
-                <span className="text-xs text-gray-400">Max Drawdown</span>
-                <div className="text-xl font-bold text-red-400 mt-1 font-mono">-{backtestResult.max_drawdown_pct}%</div>
+              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+                <span className="text-xs text-slate-400 font-medium">Max Drawdown</span>
+                <div className="text-2xl font-black text-rose-400 mt-1 font-mono">-{backtestResult.max_drawdown_pct}%</div>
+                <div className="absolute right-3 top-3 opacity-10 text-rose-400"><Activity className="w-8 h-8" /></div>
               </div>
-              <div className="glass-card rounded-xl p-4 border border-gray-800">
-                <span className="text-xs text-gray-400">Sharpe Ratio</span>
-                <div className="text-xl font-bold text-cyan-400 mt-1 font-mono">{backtestResult.sharpe_ratio}</div>
+              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+                <span className="text-xs text-slate-400 font-medium">Sharpe Ratio</span>
+                <div className="text-2xl font-black text-indigo-400 mt-1 font-mono">{backtestResult.sharpe_ratio}</div>
+                <div className="absolute right-3 top-3 opacity-10 text-indigo-400"><Layers className="w-8 h-8" /></div>
               </div>
             </div>
 
             {/* Backtest Equity Curve Chart */}
-            <div className="glass-card rounded-2xl p-6 border border-gray-800">
+            <div className="glass-card rounded-3xl p-6 border border-slate-800/80">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-base font-bold text-white">Backtest Equity Performance Curve</h3>
-                <span className="text-xs text-gray-400">Starting Capital: $10,000</span>
+                <div>
+                  <h3 className="text-base font-bold text-white">Backtest Equity Performance Curve</h3>
+                  <span className="text-xs text-slate-400">Historical Tick Aggregation & Continuous Candle Engine</span>
+                </div>
+                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+                  Capital: $10,000
+                </span>
               </div>
               <div className="h-72 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={backtestResult.equity_curve}>
                     <defs>
                       <linearGradient id="backtestGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.35} />
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor="#00f2fe" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#00f2fe" stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
-                    <XAxis dataKey="timestamp" stroke="#4B5563" fontSize={11} />
-                    <YAxis stroke="#4B5563" fontSize={11} />
+                    <XAxis dataKey="timestamp" stroke="#64748b" fontSize={11} />
+                    <YAxis stroke="#64748b" fontSize={11} />
                     <Tooltip
-                      contentStyle={{ backgroundColor: "#111827", borderColor: "#374151", borderRadius: "12px" }}
+                      contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "16px", color: "#fff" }}
                     />
-                    <Area type="monotone" dataKey="equity" stroke="#10B981" strokeWidth={3} fill="url(#backtestGrad)" />
+                    <Area type="monotone" dataKey="equity" stroke="#00f2fe" strokeWidth={3} fill="url(#backtestGrad)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
