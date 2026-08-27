@@ -10,7 +10,6 @@ import StatsSection from "../components/landing/StatsSection";
 import TestimonialsSection from "../components/landing/TestimonialsSection";
 import PricingSection from "../components/landing/PricingSection";
 import FaqSection from "../components/landing/FaqSection";
-import CtaBanner from "../components/landing/CtaBanner";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -35,7 +34,6 @@ export default function Home() {
         <div id="faq">
           <FaqSection />
         </div>
-        <CtaBanner />
       </main>
 
       <Footer />

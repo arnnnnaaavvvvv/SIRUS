@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, ShieldCheck, Github, Twitter, Disc as Discord, ArrowUpRight, Activity } from "lucide-react";
+import { TrendingUp, Github, Twitter, Disc as Discord, ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -21,13 +21,6 @@ export default function Footer() {
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               Next-generation multi-tenant quantitative algorithmic trading engine. Direct market access, vectorized sub-100ms backtesting, and automated risk orchestration across Equities & Crypto.
             </p>
-            <div className="flex items-center space-x-3 pt-2">
-              <div className="flex items-center space-x-2 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                <span>All Systems Operational</span>
-              </div>
-              <span className="text-xs text-slate-500 font-mono">Latency &lt; 4.2ms</span>
-            </div>
           </div>
 
           {/* Col 2: Platform */}
@@ -66,26 +59,11 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">Supported Venues</h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li className="flex items-center justify-between">
-                <span>Zerodha (Kite API)</span>
-                <span className="text-[10px] text-amber-400 font-mono">NSE/BSE</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>Alpaca Markets</span>
-                <span className="text-[10px] text-cyan-400 font-mono">NASDAQ</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>KuCoin Spot/Futures</span>
-                <span className="text-[10px] text-blue-400 font-mono">Crypto</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>Interactive Brokers</span>
-                <span className="text-[10px] text-rose-400 font-mono">Global</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>AngelOne SmartAPI</span>
-                <span className="text-[10px] text-emerald-400 font-mono">Demat</span>
-              </li>
+              <li>Zerodha (Kite API)</li>
+              <li>Alpaca Markets</li>
+              <li>KuCoin Spot/Futures</li>
+              <li>Interactive Brokers</li>
+              <li>AngelOne SmartAPI</li>
             </ul>
           </div>
 

@@ -40,20 +40,8 @@ export default function HeroSection() {
       <div className="hero-glow-purple top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 opacity-70" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Top Announcement Banner */}
-        <div className="flex justify-center mb-8">
-          <Link
-            href="/strategies"
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>SIRUS Engine Live: Multi-broker DMA &amp; Automated Strategy Execution</span>
-            <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-          </Link>
-        </div>
-
         {/* Hero Title & Subtitle */}
-        <div className="text-center max-w-4xl mx-auto space-y-6">
+        <div className="text-center max-w-4xl mx-auto space-y-6 pt-4">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
             <span className="text-white">The Automated Quantitative</span>{" "}
             <span className="text-gradient-cyan">Trading Engine</span>{" "}
@@ -94,7 +82,7 @@ export default function HeroSection() {
                 <div className="w-3 h-3 rounded-full bg-amber-500/80" />
                 <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
                 <span className="text-xs font-mono text-slate-400 ml-2 font-medium">
-                  sirus-terminal // live-dma-session
+                  Sirus Terminal
                 </span>
               </div>
 
