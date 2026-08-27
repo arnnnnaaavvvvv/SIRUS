@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { useAuth } from "../../context/AuthContext";
-import { Download, Filter, Search, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Download, Filter, Search, CheckCircle, Clock, XCircle, FileSpreadsheet, ShieldCheck } from "lucide-react";
 
 interface Order {
   id: string;
@@ -23,7 +24,7 @@ export default function TradesPage() {
   const [orders, setOrders] = useState<Order[]>([
     {
       id: "ord_101",
-      client_order_id: "ord_usr123_stg456_001",
+      client_order_id: "ord_••••••••_001",
       broker_name: "alpaca",
       symbol: "AAPL",
       side: "buy",
@@ -35,7 +36,7 @@ export default function TradesPage() {
     },
     {
       id: "ord_102",
-      client_order_id: "ord_usr123_stg456_002",
+      client_order_id: "ord_••••••••_002",
       broker_name: "kucoin",
       symbol: "BTC-USDT",
       side: "buy",
@@ -76,49 +77,53 @@ export default function TradesPage() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `sirus_trade_history_${Date.now()}.csv`;
+    a.download = `sirus_trade_ledger_${Date.now()}.csv`;
     a.click();
   };
 
   return (
-    <div className="min-h-screen bg-[#090D16]">
+    <div className="min-h-screen bg-[#050814] text-slate-100 flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">Execution & Audit History</h1>
-            <p className="text-xs text-gray-400">Reconciled trade ledger across Alpaca and KuCoin brokers</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              Execution &amp; Audit History
+            </h1>
+            <p className="text-xs text-slate-400 mt-1">
+              Reconciled algorithmic trade ledger across Alpaca, KuCoin, and Demat accounts
+            </p>
           </div>
 
           <button
             onClick={exportCSV}
-            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-200 text-xs font-semibold transition-colors"
+            className="flex items-center space-x-2 px-4 py-2.5 rounded-xl launch-card hover:bg-slate-900 border border-white/10 text-slate-200 text-xs font-semibold transition-all hover:scale-[1.02]"
           >
-            <Download className="w-4 h-4 text-blue-400" />
-            <span>Export CSV Audit</span>
+            <Download className="w-4 h-4 text-cyan-400" />
+            <span>Export CSV Audit Ledger</span>
           </button>
         </div>
 
         {/* Filter Controls */}
-        <div className="glass-card rounded-2xl p-4 border border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 text-gray-500 absolute left-3 top-3" />
+        <div className="launch-card rounded-2xl p-4 sm:p-5 border border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="relative w-full sm:w-80">
+            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
             <input
               type="text"
-              placeholder="Search symbol (e.g. BTC-USDT)"
+              placeholder="Search symbol (e.g. BTC-USDT or AAPL)"
               value={filterSymbol}
               onChange={(e) => setFilterSymbol(e.target.value)}
-              className="w-full bg-gray-900 border border-gray-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white focus:border-blue-500"
+              className="w-full bg-slate-950/80 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white focus:border-cyan-500 focus:outline-none"
             />
           </div>
 
           <div className="flex items-center space-x-2 w-full sm:w-auto">
-            <Filter className="w-4 h-4 text-gray-400" />
+            <Filter className="w-4 h-4 text-slate-400" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="bg-gray-900 border border-gray-800 rounded-xl py-2 px-3 text-xs text-white"
+              className="bg-slate-950/80 border border-white/10 rounded-xl py-2 px-3 text-xs text-white focus:border-cyan-500 focus:outline-none"
             >
               <option value="all">All Order Statuses</option>
               <option value="filled">Filled Only</option>
@@ -129,14 +134,14 @@ export default function TradesPage() {
         </div>
 
         {/* Data Table */}
-        <div className="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+        <div className="launch-card rounded-3xl border border-white/[0.08] overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-300">
-              <thead className="bg-gray-900/80 text-xs uppercase text-gray-400 font-semibold border-b border-gray-800">
+            <table className="w-full text-left text-xs text-slate-300">
+              <thead className="bg-slate-950/80 text-[11px] uppercase text-slate-400 font-bold border-b border-white/[0.06]">
                 <tr>
                   <th className="px-6 py-4">Timestamp</th>
                   <th className="px-6 py-4">Client Order ID</th>
-                  <th className="px-6 py-4">Broker</th>
+                  <th className="px-6 py-4">Broker Venue</th>
                   <th className="px-6 py-4">Symbol</th>
                   <th className="px-6 py-4">Side</th>
                   <th className="px-6 py-4">Quantity</th>
@@ -144,23 +149,23 @@ export default function TradesPage() {
                   <th className="px-6 py-4">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800">
+              <tbody className="divide-y divide-white/[0.04]">
                 {filteredOrders.map((ord) => (
-                  <tr key={ord.id} className="hover:bg-gray-800/40 transition-colors font-mono text-xs">
-                    <td className="px-6 py-4 text-gray-400">{new Date(ord.created_at).toLocaleString()}</td>
-                    <td className="px-6 py-4 text-gray-300 font-bold">{ord.client_order_id}</td>
-                    <td className="px-6 py-4 uppercase text-gray-400">{ord.broker_name}</td>
-                    <td className="px-6 py-4 font-bold text-white">{ord.symbol}</td>
+                  <tr key={ord.id} className="hover:bg-slate-900/40 transition-colors font-mono">
+                    <td className="px-6 py-4 text-slate-400">{new Date(ord.created_at).toLocaleString()}</td>
+                    <td className="px-6 py-4 text-slate-300 font-bold">{ord.client_order_id}</td>
+                    <td className="px-6 py-4 uppercase text-slate-400 font-semibold">{ord.broker_name}</td>
+                    <td className="px-6 py-4 font-bold text-white text-sm">{ord.symbol}</td>
                     <td className="px-6 py-4">
                       <span
-                        className={`px-2 py-0.5 rounded text-[11px] font-bold uppercase ${
-                          ord.side === "buy" ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"
+                        className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
+                          ord.side === "buy" ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-rose-500/20 text-rose-400 border border-rose-500/30"
                         }`}
                       >
                         {ord.side}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-200">{ord.quantity}</td>
+                    <td className="px-6 py-4 text-slate-200">{ord.quantity}</td>
                     <td className="px-6 py-4 text-white font-bold">${ord.avg_fill_price ? ord.avg_fill_price.toFixed(2) : "-"}</td>
                     <td className="px-6 py-4">
                       <span className="flex items-center space-x-1 text-emerald-400 font-semibold">
@@ -175,6 +180,8 @@ export default function TradesPage() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

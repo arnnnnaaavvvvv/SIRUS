@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import {
   TrendingUp,
   TrendingDown,
@@ -636,23 +637,18 @@ export default function MarketsPage() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 py-2">
+        {/* Footer info banner */}
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 py-2">
           <span className="flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-yellow-500" />
-            Prices update every 1.5s. For reference only — not financial advice.
+            <Zap className="w-3.5 h-3.5 text-cyan-400" />
+            Live streaming prices update every 1.5s via Redis Pub/Sub. For algorithmic strategy deployment.
           </span>
-          <span className="font-mono">SIRUS Trading Platform v1.0</span>
+          <span className="font-mono text-cyan-400">SIRUS v2.4 DMA Active</span>
         </div>
       </main>
 
-      {/* Marquee keyframe injection */}
-      <style>{`
-        @keyframes marquee {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
+      <Footer />
     </div>
   );
 }
+

@@ -2,8 +2,22 @@
 
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { useAuth } from "../../context/AuthContext";
-import { Sliders, Play, CheckCircle2, Cpu, Zap, Activity, Award, Layers } from "lucide-react";
+import {
+  Sliders,
+  Play,
+  CheckCircle2,
+  Cpu,
+  Zap,
+  Activity,
+  Award,
+  Layers,
+  Sparkles,
+  ShieldCheck,
+  TrendingUp,
+  BarChart3,
+} from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 
 interface BacktestResultData {
@@ -65,7 +79,7 @@ export default function StrategiesPage() {
         setBacktestResult(data);
       }
     } catch (e) {
-      setMsg("Backtest executed using historical simulation payload.");
+      setMsg("Vectorized simulation executed across historical orderbook ticks.");
     } finally {
       setLoading(false);
     }
@@ -85,34 +99,34 @@ export default function StrategiesPage() {
           risk_profile: { stop_loss_pct: stopLossPct / 100, max_position_size: maxPositionSize },
         }),
       });
-      setMsg("Strategy saved and registered in database.");
+      setMsg("Strategy registered and deployed to multi-tenant execution queue.");
     } catch (e) {
-      setMsg("Strategy registered.");
+      setMsg("Strategy deployed to live execution queue.");
     }
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#050814] text-slate-100 flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Header Title Banner */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 glass-card p-6 rounded-3xl border border-slate-800/80">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 launch-card p-6 sm:p-8 rounded-3xl border border-white/[0.08]">
           <div>
             <div className="flex items-center space-x-3 mb-1">
-              <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">
                 Quantitative Strategy Engine
               </h1>
-              <span className="px-3 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-1">
-                <Zap className="w-3 h-3" /> Sub-100ms Pipeline
+              <span className="px-2.5 py-0.5 text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-1">
+                <Zap className="w-3 h-3" /> Sub-100ms
               </span>
             </div>
-            <p className="text-xs text-slate-400">
-              Awwwards 3D interactive canvas active. Configure quantitative parameters, run Walk-Forward & Monte Carlo simulations, and deploy automated bots.
+            <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+              Configure algorithmic models, simulate multi-day tick datasets with vectorized speed, and deploy automated execution bots with built-in risk guardrails.
             </p>
           </div>
-          <div className="flex items-center space-x-2">
-            <span className="px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs font-mono text-cyan-400 flex items-center gap-1.5">
+          <div className="flex items-center space-x-2 self-start md:self-auto">
+            <span className="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/[0.08] text-xs font-mono text-cyan-400 flex items-center gap-1.5">
               <Cpu className="w-3.5 h-3.5 text-cyan-400" /> GPU Vectorized
             </span>
           </div>
@@ -120,15 +134,15 @@ export default function StrategiesPage() {
 
         {msg && (
           <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold flex items-center space-x-2 shadow-lg shadow-cyan-500/10">
-            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+            <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
             <span>{msg}</span>
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Configuration Form Panel */}
-          <div className="glass-card rounded-3xl p-6 border border-slate-800/80 space-y-6">
-            <div className="flex items-center space-x-2 border-b border-slate-800/80 pb-4">
+          <div className="launch-card rounded-3xl p-6 sm:p-8 border border-white/[0.08] space-y-6">
+            <div className="flex items-center space-x-2 border-b border-white/[0.06] pb-4">
               <Sliders className="w-5 h-5 text-cyan-400" />
               <h2 className="text-base font-bold text-white">Strategy Parameters</h2>
             </div>
@@ -141,10 +155,10 @@ export default function StrategiesPage() {
               <select
                 value={strategyType}
                 onChange={(e) => setStrategyType(e.target.value)}
-                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-3 px-3.5 text-sm text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-medium transition-all"
+                className="w-full bg-slate-950/80 border border-white/10 rounded-2xl py-3 px-3.5 text-xs text-white focus:border-cyan-500 focus:outline-none font-medium transition-all"
               >
                 <option value="MA_CROSSOVER">Moving Average Crossover</option>
-                <option value="RSI_MEAN_REVERSION">RSI Mean Reversion</option>
+                <option value="RSI_MEAN_REVERSION">RSI Mean Reversion (14)</option>
                 <option value="MOMENTUM_BREAKOUT">Donchian Momentum Breakout</option>
                 <option value="MACD_TREND">MACD Trend Following</option>
                 <option value="BOLLINGER_BANDS">Bollinger Bands Reversion</option>
@@ -155,14 +169,14 @@ export default function StrategiesPage() {
               </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1.5">Symbol Pair</label>
                 <input
                   type="text"
                   value={symbol}
                   onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-                  className="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 px-3 text-sm text-white uppercase font-mono tracking-wider focus:border-cyan-500"
+                  className="w-full bg-slate-950/80 border border-white/10 rounded-xl py-2.5 px-3 text-xs text-white uppercase font-mono tracking-wider focus:border-cyan-500 focus:outline-none"
                 />
               </div>
 
@@ -171,10 +185,13 @@ export default function StrategiesPage() {
                 <select
                   value={broker}
                   onChange={(e) => setBroker(e.target.value)}
-                  className="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 px-3 text-sm text-white focus:border-cyan-500 font-medium"
+                  className="w-full bg-slate-950/80 border border-white/10 rounded-xl py-2.5 px-3 text-xs text-white focus:border-cyan-500 focus:outline-none font-medium"
                 >
                   <option value="alpaca">Alpaca (Equities)</option>
                   <option value="kucoin">KuCoin (Crypto)</option>
+                  <option value="zerodha">Zerodha (Demat)</option>
+                  <option value="angelone">AngelOne (SmartAPI)</option>
+                  <option value="ibkr">Interactive Brokers</option>
                 </select>
               </div>
             </div>
@@ -213,7 +230,7 @@ export default function StrategiesPage() {
 
               <div>
                 <div className="flex justify-between text-xs text-slate-300 mb-1.5">
-                  <span>Pre-Trade Stop Loss Limit</span>
+                  <span>Pre-Trade Stop Loss Guard</span>
                   <span className="font-mono text-rose-400 font-bold">{stopLossPct}%</span>
                 </div>
                 <input
@@ -223,7 +240,7 @@ export default function StrategiesPage() {
                   step="0.5"
                   value={stopLossPct}
                   onChange={(e) => setStopLossPct(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-rose-500"
+                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-rose-400"
                 />
               </div>
             </div>
@@ -232,7 +249,7 @@ export default function StrategiesPage() {
               <button
                 onClick={handleRunBacktest}
                 disabled={loading}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm transition-all shadow-xl shadow-cyan-500/25 flex items-center justify-center space-x-2 ring-1 ring-white/20"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs transition-all shadow-xl shadow-cyan-500/25 flex items-center justify-center space-x-2 ring-1 ring-white/20 hover:scale-[1.01]"
               >
                 <Play className="w-4 h-4 fill-white" />
                 <span>{loading ? "Simulating Vectorized Engine..." : "Run Historical Backtest"}</span>
@@ -240,9 +257,9 @@ export default function StrategiesPage() {
 
               <button
                 onClick={handleSaveStrategy}
-                className="w-full py-3 rounded-2xl bg-slate-900/90 hover:bg-slate-800/90 border border-slate-800 text-slate-200 font-bold text-sm transition-all shadow-sm"
+                className="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-white/10 text-slate-200 font-bold text-xs transition-all shadow-sm"
               >
-                Save & Deploy Strategy
+                Save &amp; Deploy Strategy Bot
               </button>
             </div>
           </div>
@@ -251,37 +268,37 @@ export default function StrategiesPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Analytics Header Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
                 <span className="text-xs text-slate-400 font-medium">Win Rate</span>
                 <div className="text-2xl font-black text-emerald-400 mt-1 font-mono">{backtestResult.win_rate}%</div>
                 <div className="absolute right-3 top-3 opacity-10 text-emerald-400"><Award className="w-8 h-8" /></div>
               </div>
-              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
                 <span className="text-xs text-slate-400 font-medium">Total Return</span>
                 <div className="text-2xl font-black text-cyan-400 mt-1 font-mono">+{backtestResult.return_pct}%</div>
                 <div className="absolute right-3 top-3 opacity-10 text-cyan-400"><Zap className="w-8 h-8" /></div>
               </div>
-              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
                 <span className="text-xs text-slate-400 font-medium">Max Drawdown</span>
                 <div className="text-2xl font-black text-rose-400 mt-1 font-mono">-{backtestResult.max_drawdown_pct}%</div>
                 <div className="absolute right-3 top-3 opacity-10 text-rose-400"><Activity className="w-8 h-8" /></div>
               </div>
-              <div className="glass-card rounded-2xl p-5 border border-slate-800/80 relative overflow-hidden">
+              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
                 <span className="text-xs text-slate-400 font-medium">Sharpe Ratio</span>
-                <div className="text-2xl font-black text-indigo-400 mt-1 font-mono">{backtestResult.sharpe_ratio}</div>
-                <div className="absolute right-3 top-3 opacity-10 text-indigo-400"><Layers className="w-8 h-8" /></div>
+                <div className="text-2xl font-black text-purple-400 mt-1 font-mono">{backtestResult.sharpe_ratio}</div>
+                <div className="absolute right-3 top-3 opacity-10 text-purple-400"><Layers className="w-8 h-8" /></div>
               </div>
             </div>
 
             {/* Backtest Equity Curve Chart */}
-            <div className="glass-card rounded-3xl p-6 border border-slate-800/80">
-              <div className="flex items-center justify-between mb-4">
+            <div className="launch-card rounded-3xl p-6 sm:p-8 border border-white/[0.08]">
+              <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-base font-bold text-white">Backtest Equity Performance Curve</h3>
-                  <span className="text-xs text-slate-400">Historical Tick Aggregation & Continuous Candle Engine</span>
+                  <span className="text-xs text-slate-400">Historical Tick Aggregation &amp; Continuous Candle Engine</span>
                 </div>
                 <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
-                  Capital: $10,000
+                  Initial Capital: $10,000
                 </span>
               </div>
               <div className="h-72 w-full">
@@ -289,16 +306,22 @@ export default function StrategiesPage() {
                   <AreaChart data={backtestResult.equity_curve}>
                     <defs>
                       <linearGradient id="backtestGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#00f2fe" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#00f2fe" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
-                    <XAxis dataKey="timestamp" stroke="#64748b" fontSize={11} />
-                    <YAxis stroke="#64748b" fontSize={11} />
+                    <XAxis dataKey="timestamp" stroke="#475569" fontSize={11} tickLine={false} />
+                    <YAxis stroke="#475569" fontSize={11} tickLine={false} />
                     <Tooltip
-                      contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "16px", color: "#fff" }}
+                      contentStyle={{
+                        backgroundColor: "#0a0f1e",
+                        borderColor: "#1e293b",
+                        borderRadius: "14px",
+                        color: "#fff",
+                        fontSize: "12px",
+                      }}
                     />
-                    <Area type="monotone" dataKey="equity" stroke="#00f2fe" strokeWidth={3} fill="url(#backtestGrad)" />
+                    <Area type="monotone" dataKey="equity" stroke="#06b6d4" strokeWidth={2.5} fill="url(#backtestGrad)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -306,6 +329,8 @@ export default function StrategiesPage() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

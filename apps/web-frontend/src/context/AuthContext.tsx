@@ -33,9 +33,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setUser({
-      uid: "dev_user_123",
-      email: "trader@sirus.io",
-      displayName: "Demo Trader",
+      uid: "usr_••••••••",
+      email: "trader@example.com",
+      displayName: "Quantitative Trader",
       getIdToken: async () => "mock_token_dev_trader",
     });
     setLoading(false);
@@ -53,9 +53,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return "mock_token_dev_trader";
   };
 
-  const loginDev = (emailStr: string = "trader@sirus.io") => {
+  const loginDev = (emailStr: string = "trader@example.com") => {
     setUser({
-      uid: "dev_user_123",
+      uid: "usr_••••••••",
       email: emailStr,
       getIdToken: async () => "mock_token_dev_trader",
     });
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       return await signInWithEmailAndPassword(auth, e, p);
     } catch (err) {
-      loginDev(e || "trader@sirus.io");
+      loginDev(e || "trader@example.com");
       return true;
     }
   };
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       return await createUserWithEmailAndPassword(auth, e, p);
     } catch (err) {
-      loginDev(e || "trader@sirus.io");
+      loginDev(e || "trader@example.com");
       return true;
     }
   };
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       return await signInWithPopup(auth, googleProvider);
     } catch (err) {
-      loginDev("trader@sirus.io");
+      loginDev("trader@example.com");
       return true;
     }
   };

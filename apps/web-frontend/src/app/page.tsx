@@ -1,26 +1,46 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext";
+import React from "react";
+import Navbar from "../components/Navbar";
+import HeroSection from "../components/landing/HeroSection";
+import LogoCloud from "../components/landing/LogoCloud";
+import BentoFeatures from "../components/landing/BentoFeatures";
+import CodePreviewSection from "../components/landing/CodePreviewSection";
+import LiveSimulator from "../components/landing/LiveSimulator";
+import StatsSection from "../components/landing/StatsSection";
+import TestimonialsSection from "../components/landing/TestimonialsSection";
+import PricingSection from "../components/landing/PricingSection";
+import FaqSection from "../components/landing/FaqSection";
+import CtaBanner from "../components/landing/CtaBanner";
+import Footer from "../components/Footer";
 
 export default function Home() {
-  const router = useRouter();
-  const { user, loading } = useAuth();
-
-  useEffect(() => {
-    if (!loading) {
-      if (user) {
-        router.push("/dashboard");
-      } else {
-        router.push("/login");
-      }
-    }
-  }, [user, loading, router]);
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#090D16]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    <div className="min-h-screen bg-[#050814] text-slate-100 flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
+      <Navbar />
+
+      <main className="flex-grow">
+        <HeroSection />
+        <LogoCloud />
+        <div id="features">
+          <BentoFeatures />
+        </div>
+        <CodePreviewSection />
+        <div id="simulator">
+          <LiveSimulator />
+        </div>
+        <StatsSection />
+        <TestimonialsSection />
+        <div id="pricing">
+          <PricingSection />
+        </div>
+        <div id="faq">
+          <FaqSection />
+        </div>
+        <CtaBanner />
+      </main>
+
+      <Footer />
     </div>
   );
 }
