@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function CtaBanner() {
   return (
@@ -36,11 +36,6 @@ export default function CtaBanner() {
             >
               <span>Sign In with Demat / Google</span>
             </Link>
-          </div>
-
-          <div className="pt-4 flex items-center justify-center space-x-6 text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> AES-256 Vault</span>
-            <span className="flex items-center gap-1.5"><Zap className="w-3.5 h-3.5 text-cyan-400" /> &lt; 5ms Routing</span>
           </div>
         </div>
       </div>

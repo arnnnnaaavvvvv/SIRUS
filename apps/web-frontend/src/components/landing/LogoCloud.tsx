@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Building2, Globe2, ShieldCheck, Zap } from "lucide-react";
 
 const VENUES = [
   { name: "Zerodha Kite", type: "NSE/BSE Demat", tag: "Kite Connect" },

@@ -22,8 +22,8 @@ export default function Footer() {
               Next-generation multi-tenant quantitative algorithmic trading engine. Direct market access, vectorized sub-100ms backtesting, and automated risk orchestration across Equities & Crypto.
             </p>
             <div className="flex items-center space-x-3 pt-2">
-              <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <div className="flex items-center space-x-2 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-emerald-400 text-xs font-mono">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 <span>All Systems Operational</span>
               </div>
               <span className="text-xs text-slate-500 font-mono">Latency &lt; 4.2ms</span>

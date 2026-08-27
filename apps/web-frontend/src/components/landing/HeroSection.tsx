@@ -3,17 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  TrendingUp,
   ArrowRight,
   Play,
-  ShieldCheck,
-  Zap,
-  Activity,
   CheckCircle2,
-  Cpu,
-  Layers,
-  BarChart3,
-  Lock,
 } from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 
@@ -90,26 +82,10 @@ export default function HeroSection() {
               <span>Explore Strategies</span>
             </Link>
           </div>
-
-          {/* Trust Metrics & Social Proof */}
-          <div className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-slate-400 font-medium">
-            <div className="flex items-center space-x-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Isolated Demat Keys (AES-256)</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Zap className="w-4 h-4 text-cyan-400" />
-              <span>&lt; 5ms Venue Execution</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Cpu className="w-4 h-4 text-purple-400" />
-              <span>GPU Vectorized Backtesting</span>
-            </div>
-          </div>
         </div>
 
         {/* Hero Interactive Terminal Mockup */}
-        <div className="mt-14 max-w-5xl mx-auto">
+        <div className="mt-10 max-w-5xl mx-auto">
           <div className="launch-card-static rounded-3xl p-1 md:p-2 border border-white/10 shadow-2xl relative">
             {/* Top Terminal Bar */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-slate-950/60 rounded-t-2xl">
