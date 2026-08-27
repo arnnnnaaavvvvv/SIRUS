@@ -12,7 +12,6 @@ import {
   Layers,
   Zap,
   ArrowUpRight,
-  Sparkles,
   ShieldCheck,
   Globe2,
   Sliders,
@@ -201,10 +200,7 @@ export default function DashboardPage() {
                 +${summary.unrealized_pnl.toLocaleString("en-US", { minimumFractionDigits: 2 })}
               </span>
             </div>
-            <div className="mt-3 text-xs text-slate-400 font-medium flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Continuous Rebalancing</span>
-            </div>
+            <div className="mt-3 text-xs text-slate-400 font-medium">Continuous Rebalancing</div>
           </div>
 
           {/* Card 3: Realized P&L */}

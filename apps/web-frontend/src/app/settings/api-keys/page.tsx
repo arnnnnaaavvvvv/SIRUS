@@ -14,7 +14,6 @@ import {
   Trash2,
   ExternalLink,
   ArrowRight,
-  Sparkles,
   Key,
 } from "lucide-react";
 

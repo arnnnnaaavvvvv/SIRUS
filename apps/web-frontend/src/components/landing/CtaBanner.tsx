@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap } from "lucide-react";
 
 export default function CtaBanner() {
   return (
@@ -12,11 +12,6 @@ export default function CtaBanner() {
           {/* Ambient Glow */}
           <div className="absolute -right-20 -top-20 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full badge-glow-cyan text-xs font-semibold text-cyan-300">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Instant Access</span>
-          </div>
 
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight max-w-2xl mx-auto">
             Ready to Automate Your <span className="text-gradient-cyan">Trading Edge</span>?

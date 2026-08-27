@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   TrendingUp,
-  Sparkles,
   ArrowRight,
   Play,
   ShieldCheck,
@@ -49,17 +48,15 @@ export default function HeroSection() {
       <div className="hero-glow-purple top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 opacity-70" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Top Announcement Badge */}
+        {/* Top Announcement Banner */}
         <div className="flex justify-center mb-8">
           <Link
             href="/strategies"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full badge-glow-cyan text-xs font-semibold text-cyan-300 hover:text-white transition-all hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
           >
-            <span className="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
-            <span className="bg-gradient-to-r from-cyan-300 via-white to-blue-300 bg-clip-text text-transparent">
-              SIRUS Engine Live: Multi-broker DMA &amp; Automated Strategy Execution
-            </span>
-            <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span>SIRUS Engine Live: Multi-broker DMA &amp; Automated Strategy Execution</span>
+            <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
           </Link>
         </div>
 

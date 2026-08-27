@@ -69,12 +69,6 @@ body {
   box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.45);
 }
 
-.badge-glow-cyan {
-  border: 1px solid rgba(0, 242, 254, 0.35);
-  background: rgba(0, 242, 254, 0.08);
-  box-shadow: 0 0 16px -3px rgba(0, 242, 254, 0.28);
-}
-
 /* Ambient Radial Lighting */
 .hero-glow-cyan {
   position: absolute;

@@ -10,7 +10,6 @@ import {
   Mail,
   Lock,
   ArrowRight,
-  Sparkles,
   Zap,
   Cpu,
   ArrowLeft,

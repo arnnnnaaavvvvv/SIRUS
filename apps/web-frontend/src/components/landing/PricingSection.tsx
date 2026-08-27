@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Check, Sparkles, ArrowRight, Zap, Shield } from "lucide-react";
+import { Check, ArrowRight, Zap, Shield } from "lucide-react";
 
 export default function PricingSection() {
   const [annualBilling, setAnnualBilling] = useState(true);
@@ -72,10 +72,6 @@ export default function PricingSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full badge-glow-cyan text-xs font-semibold text-cyan-300">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Transparent Quant Pricing</span>
-          </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
             Simple Plans for <span className="text-gradient-cyan">Every Scale</span>
           </h2>

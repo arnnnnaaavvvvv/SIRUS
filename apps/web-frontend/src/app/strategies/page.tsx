@@ -13,7 +13,6 @@ import {
   Activity,
   Award,
   Layers,
-  Sparkles,
   ShieldCheck,
   TrendingUp,
   BarChart3,
