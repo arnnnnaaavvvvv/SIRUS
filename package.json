@@ -1,0 +1,11 @@
+{
+  "name": "sirus-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix apps/web-frontend run dev",
+    "build": "npm --prefix apps/web-frontend run build",
+    "start": "npm --prefix apps/web-frontend run start",
+    "lint": "npm --prefix apps/web-frontend run lint"
+  }
+}

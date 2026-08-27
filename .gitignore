@@ -72,3 +72,4 @@ kubeconfig
 # ─── Build Artifacts ─────────────────────────────────────────────────────────
 *.tar.gz
 *.zip
+.vercel
