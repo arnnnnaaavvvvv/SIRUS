@@ -57,7 +57,7 @@ export default function HeroSection() {
           >
             <span className="flex h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
             <span className="bg-gradient-to-r from-cyan-300 via-white to-blue-300 bg-clip-text text-transparent">
-              SIRUS v2.4 Engine Live: Multi-broker DMA & Vectorized Backtesting
+              SIRUS Engine Live: Multi-broker DMA &amp; Automated Strategy Execution
             </span>
             <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
           </Link>

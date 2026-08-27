@@ -97,10 +97,7 @@ export default function LoginPage() {
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 ring-1 ring-white/20">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
-              <div>
-                <span className="text-xl font-black tracking-tight text-white block">SIRUS</span>
-                <span className="text-xs text-cyan-400 font-mono">Quantitative Engine</span>
-              </div>
+              <span className="text-xl font-black tracking-tight text-white block">SIRUS</span>
             </div>
 
             <div className="space-y-3">

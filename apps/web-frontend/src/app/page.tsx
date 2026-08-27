@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 import HeroSection from "../components/landing/HeroSection";
 import LogoCloud from "../components/landing/LogoCloud";
 import BentoFeatures from "../components/landing/BentoFeatures";
-import CodePreviewSection from "../components/landing/CodePreviewSection";
 import LiveSimulator from "../components/landing/LiveSimulator";
 import StatsSection from "../components/landing/StatsSection";
 import TestimonialsSection from "../components/landing/TestimonialsSection";
@@ -25,7 +24,6 @@ export default function Home() {
         <div id="features">
           <BentoFeatures />
         </div>
-        <CodePreviewSection />
         <div id="simulator">
           <LiveSimulator />
         </div>

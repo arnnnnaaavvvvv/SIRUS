@@ -643,7 +643,7 @@ export default function MarketsPage() {
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             Live streaming prices update every 1.5s via Redis Pub/Sub. For algorithmic strategy deployment.
           </span>
-          <span className="font-mono text-cyan-400">SIRUS v2.4 DMA Active</span>
+          <span className="font-mono text-cyan-400">SIRUS DMA Active</span>
         </div>
       </main>
 

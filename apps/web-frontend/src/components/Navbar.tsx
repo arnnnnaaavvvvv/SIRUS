@@ -11,9 +11,6 @@ import {
   Globe,
   History,
   Link2,
-  LogOut,
-  Sparkles,
-  ShieldCheck,
   Menu,
   X,
   ArrowRight,
@@ -22,7 +19,7 @@ import {
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isLanding = pathname === "/";
@@ -44,15 +41,6 @@ export default function Navbar() {
     { label: "FAQ", href: "#faq" },
   ];
 
-  const formatDisplayEmail = (emailStr?: string) => {
-    if (!emailStr) return "Trader Account";
-    if (emailStr.includes("@")) {
-      const [name, domain] = emailStr.split("@");
-      return `${name.slice(0, 2)}••••@${domain}`;
-    }
-    return "Trader Account";
-  };
-
   return (
     <header className="sticky top-0 z-50 launch-glass-nav backdrop-blur-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -61,17 +49,9 @@ export default function Navbar() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 ring-1 ring-white/20 group-hover:scale-105 transition-transform">
             <TrendingUp className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">
-                SIRUS
-              </span>
-              <span className="px-2 py-0.5 text-[9px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full flex items-center gap-1">
-                <Sparkles className="w-2.5 h-2.5" /> v2.4 DMA
-              </span>
-            </div>
-            <span className="text-[10px] text-slate-400 font-mono block">Quantitative Engine</span>
-          </div>
+          <span className="text-base font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">
+            SIRUS
+          </span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -109,19 +89,13 @@ export default function Navbar() {
         {/* Right CTA / Auth Status */}
         <div className="hidden md:flex items-center space-x-3">
           {user ? (
-            <>
-              <div className="flex flex-col text-right">
-                <span className="text-xs font-bold text-slate-200">{formatDisplayEmail(user.email)}</span>
-                <span className="text-[10px] text-cyan-400/90 font-mono">Tenant ID: ••••••••</span>
-              </div>
-              <button
-                onClick={() => logout()}
-                className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all"
-                title="Sign Out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </>
+            <Link
+              href="/dashboard"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all flex items-center space-x-1.5 ring-1 ring-white/20 hover:scale-[1.02]"
+            >
+              <span>Terminal Dashboard</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           ) : (
             <>
               <Link
@@ -168,23 +142,7 @@ export default function Navbar() {
           </div>
 
           <div className="pt-3 border-t border-white/[0.06] flex flex-col gap-2">
-            {user ? (
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-bold text-white">{formatDisplayEmail(user.email)}</div>
-                  <div className="text-[10px] text-cyan-400 font-mono">Tenant ID: ••••••••</div>
-                </div>
-                <button
-                  onClick={() => {
-                    logout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-rose-400 bg-rose-500/10 border border-rose-500/20"
-                >
-                  Sign Out
-                </button>
-              </div>
-            ) : (
+            {!user ? (
               <>
                 <Link
                   href="/login"
@@ -201,6 +159,14 @@ export default function Navbar() {
                   Launch Terminal
                 </Link>
               </>
+            ) : (
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 text-center rounded-xl bg-cyan-500 text-slate-950 text-xs font-extrabold shadow-lg shadow-cyan-500/20"
+              >
+                Terminal Dashboard
+              </Link>
             )}
           </div>
         </div>
