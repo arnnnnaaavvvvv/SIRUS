@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { Sliders, Play, ArrowRight, Activity, Zap, Award, Layers } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 
 export default function LiveSimulator() {
@@ -13,7 +13,7 @@ export default function LiveSimulator() {
 
   // Dynamically calculate simulated metrics and equity curve based on slider changes
   const { metrics, chartData } = useMemo(() => {
-    const seed = (fastPeriod * 3 + slowPeriod * 2 + stopLoss * 10);
+    const seed = fastPeriod * 3 + slowPeriod * 2 + stopLoss * 10;
     const winRate = +(62 + (seed % 14)).toFixed(1);
     const totalReturn = +(12.4 + (seed % 18) * 0.8).toFixed(1);
     const maxDrawdown = +(2.8 + (seed % 5) * 0.4).toFixed(1);
@@ -36,20 +36,20 @@ export default function LiveSimulator() {
   }, [strategy, fastPeriod, slowPeriod, stopLoss]);
 
   return (
-    <section className="py-20 relative overflow-hidden bg-slate-950/40 border-y border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 relative overflow-hidden bg-[#0f1515]/40 border-y border-border">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Test Algorithmic Parameters <span className="text-gradient-cyan">In Real Time</span>
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <h2 className="text-[32px] leading-[36px] md:text-[52px] md:leading-[56px] tracking-[-1.6px] font-medium text-white">
+            Test algorithmic parameters in real time.
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-[16px] text-muted-foreground">
             Adjust indicators below to see instant vectorized backtest simulations and equity trajectories.
           </p>
         </div>
 
         {/* Simulator Card Container */}
-        <div className="launch-card rounded-3xl p-6 sm:p-10 border border-white/10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-6 sm:p-10 border border-border max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pricing-card-border">
           {/* Controls Column */}
           <div className="lg:col-span-5 space-y-6">
             <div>
@@ -57,7 +57,7 @@ export default function LiveSimulator() {
               <select
                 value={strategy}
                 onChange={(e) => setStrategy(e.target.value)}
-                className="w-full bg-slate-900 border border-white/10 rounded-xl py-2.5 px-3 text-xs text-white font-medium focus:border-cyan-500 focus:outline-none"
+                className="w-full bg-[#182222] border border-border rounded-md py-2.5 px-3 text-xs text-white font-medium focus:border-border-light focus:outline-none"
               >
                 <option value="MA_CROSSOVER">Dual Moving Average Crossover</option>
                 <option value="RSI_MEAN_REVERSION">RSI Mean Reversion (14)</option>
@@ -71,7 +71,7 @@ export default function LiveSimulator() {
               <div>
                 <div className="flex justify-between text-xs text-slate-300 mb-1">
                   <span>Fast Period Window</span>
-                  <span className="font-mono text-cyan-400 font-bold">{fastPeriod} Bars</span>
+                  <span className="font-mono text-[#fff800] font-bold">{fastPeriod} Bars</span>
                 </div>
                 <input
                   type="range"
@@ -79,14 +79,14 @@ export default function LiveSimulator() {
                   max="30"
                   value={fastPeriod}
                   onChange={(e) => setFastPeriod(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                  className="w-full h-1.5 bg-[#182222] rounded-lg appearance-none cursor-pointer accent-[#fff800]"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between text-xs text-slate-300 mb-1">
                   <span>Slow Period Window</span>
-                  <span className="font-mono text-cyan-400 font-bold">{slowPeriod} Bars</span>
+                  <span className="font-mono text-[#fff800] font-bold">{slowPeriod} Bars</span>
                 </div>
                 <input
                   type="range"
@@ -94,7 +94,7 @@ export default function LiveSimulator() {
                   max="120"
                   value={slowPeriod}
                   onChange={(e) => setSlowPeriod(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                  className="w-full h-1.5 bg-[#182222] rounded-lg appearance-none cursor-pointer accent-[#fff800]"
                 />
               </div>
 
@@ -110,7 +110,7 @@ export default function LiveSimulator() {
                   step="0.5"
                   value={stopLoss}
                   onChange={(e) => setStopLoss(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-400"
+                  className="w-full h-1.5 bg-[#182222] rounded-lg appearance-none cursor-pointer accent-rose-400"
                 />
               </div>
             </div>
@@ -118,10 +118,10 @@ export default function LiveSimulator() {
             <div className="pt-2">
               <Link
                 href="/strategies"
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center space-x-2"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium cursor-pointer relative bg-[#fcfcfc33] text-white secondary-button-animation h-11 px-5 py-[10px] w-full border border-white/10 hover:bg-white/20"
               >
                 <span>Deploy Strategy to Live Sandbox</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
             </div>
           </div>
@@ -130,29 +130,29 @@ export default function LiveSimulator() {
           <div className="lg:col-span-7 space-y-6">
             {/* Metric Pills */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block font-medium">Win Rate</span>
+              <div className="p-3.5 rounded-md bg-[#182222]/60 border border-border">
+                <span className="text-[10px] text-muted-foreground block font-medium">Win Rate</span>
                 <span className="text-lg font-bold font-mono text-emerald-400">{metrics.winRate}%</span>
               </div>
-              <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block font-medium">Sim Return</span>
-                <span className="text-lg font-bold font-mono text-cyan-400">+{metrics.totalReturn}%</span>
+              <div className="p-3.5 rounded-md bg-[#182222]/60 border border-border">
+                <span className="text-[10px] text-muted-foreground block font-medium">Sim Return</span>
+                <span className="text-lg font-bold font-mono text-[#fff800]">+{metrics.totalReturn}%</span>
               </div>
-              <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block font-medium">Max Drawdown</span>
+              <div className="p-3.5 rounded-md bg-[#182222]/60 border border-border">
+                <span className="text-[10px] text-muted-foreground block font-medium">Max Drawdown</span>
                 <span className="text-lg font-bold font-mono text-rose-400">-{metrics.maxDrawdown}%</span>
               </div>
-              <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 block font-medium">Sharpe Ratio</span>
-                <span className="text-lg font-bold font-mono text-purple-400">{metrics.sharpe}</span>
+              <div className="p-3.5 rounded-md bg-[#182222]/60 border border-border">
+                <span className="text-[10px] text-muted-foreground block font-medium">Sharpe Ratio</span>
+                <span className="text-lg font-bold font-mono text-cyan-400">{metrics.sharpe}</span>
               </div>
             </div>
 
             {/* Simulation Chart */}
-            <div className="p-4 rounded-2xl bg-slate-950/70 border border-white/[0.06]">
+            <div className="p-4 rounded-md bg-[#182222]/60 border border-border">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-semibold text-slate-300">Simulated Equity Trajectory</span>
-                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
+                <span className="text-[10px] font-mono text-[#fff800] bg-[#fff800]/10 px-2 py-0.5 rounded-full border border-[#fff800]/20">
                   Initial Capital: $10,000
                 </span>
               </div>
@@ -161,22 +161,22 @@ export default function LiveSimulator() {
                   <AreaChart data={chartData}>
                     <defs>
                       <linearGradient id="simGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
+                        <stop offset="5%" stopColor="#fff800" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#fff800" stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
-                    <XAxis dataKey="day" stroke="#475569" fontSize={10} tickLine={false} />
-                    <YAxis domain={["dataMin - 100", "dataMax + 100"]} stroke="#475569" fontSize={10} tickLine={false} />
+                    <XAxis dataKey="day" stroke="#414b4e" fontSize={10} tickLine={false} />
+                    <YAxis domain={["dataMin - 100", "dataMax + 100"]} stroke="#414b4e" fontSize={10} tickLine={false} />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "#0a0f1e",
-                        borderColor: "#1e293b",
-                        borderRadius: "10px",
+                        backgroundColor: "#182222",
+                        borderColor: "#272f30",
+                        borderRadius: "8px",
                         fontSize: "11px",
                         color: "#fff",
                       }}
                     />
-                    <Area type="monotone" dataKey="equity" stroke="#06b6d4" strokeWidth={2} fill="url(#simGrad)" />
+                    <Area type="monotone" dataKey="equity" stroke="#fff800" strokeWidth={2} fill="url(#simGrad)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>

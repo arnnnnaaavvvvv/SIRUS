@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TrendingUp, Zap, Clock, ShieldCheck, BarChart3, Globe } from "lucide-react";
+import { Zap, ShieldCheck, BarChart3, Globe } from "lucide-react";
 
 export default function StatsSection() {
   const stats = [
@@ -11,7 +11,7 @@ export default function StatsSection() {
       change: "+48% YoY",
       desc: "Routed across Equities & Crypto liquidity venues",
       icon: BarChart3,
-      color: "text-cyan-400",
+      color: "text-[#fff800]",
     },
     {
       label: "Average Execution Latency",
@@ -27,7 +27,7 @@ export default function StatsSection() {
       change: "Fault-Tolerant",
       desc: "Multi-region redundant failover microservices",
       icon: ShieldCheck,
-      color: "text-blue-400",
+      color: "text-cyan-400",
     },
     {
       label: "Global Market Instruments",
@@ -41,32 +41,32 @@ export default function StatsSection() {
 
   return (
     <section className="py-20 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, i) => {
             const Icon = stat.icon;
             return (
               <div
                 key={i}
-                className="launch-card rounded-3xl p-6 border border-white/[0.08] relative overflow-hidden flex flex-col justify-between"
+                className="rounded-lg bg-[#0f1515]/70 backdrop-blur-[6px] p-6 border border-border relative overflow-hidden flex flex-col justify-between pricing-card-border"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                       {stat.label}
                     </span>
-                    <div className={`p-2 rounded-xl bg-white/[0.04] border border-white/[0.06] ${stat.color}`}>
+                    <div className={`p-2 rounded-md bg-[#182222] border border-border ${stat.color}`}>
                       <Icon className="w-4 h-4" />
                     </div>
                   </div>
-                  <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-mono">
+                  <div className="text-3xl sm:text-4xl font-bold text-white tracking-tight font-mono">
                     {stat.value}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-white/[0.06] space-y-1">
-                  <span className={`text-xs font-bold ${stat.color}`}>{stat.change}</span>
-                  <p className="text-[11px] text-slate-400 leading-normal">{stat.desc}</p>
+                <div className="mt-4 pt-4 border-t border-border space-y-1">
+                  <span className={`text-xs font-semibold ${stat.color}`}>{stat.change}</span>
+                  <p className="text-xs text-muted-foreground leading-normal">{stat.desc}</p>
                 </div>
               </div>
             );

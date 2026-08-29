@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Star, ShieldCheck, Quote } from "lucide-react";
+import { Star } from "lucide-react";
 
 export default function TestimonialsSection() {
   const testimonials = [
@@ -36,13 +36,13 @@ export default function TestimonialsSection() {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Trusted by <span className="text-gradient-cyan">Systematic Traders</span> Worldwide
+          <h2 className="text-[32px] leading-[36px] md:text-[56px] md:leading-[60px] tracking-[-1.6px] font-medium text-white">
+            Trusted by systematic traders worldwide.
           </h2>
-          <p className="text-sm sm:text-base text-slate-400">
+          <p className="text-[16px] text-muted-foreground">
             Hear from fund managers, prop desks, and retail quantitative traders who rely on SIRUS daily.
           </p>
         </div>
@@ -52,31 +52,31 @@ export default function TestimonialsSection() {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="launch-card rounded-3xl p-8 border border-white/[0.08] flex flex-col justify-between space-y-6 relative"
+              className="rounded-lg bg-[#0f1515]/70 backdrop-blur-[6px] p-8 border border-border flex flex-col justify-between space-y-6 relative pricing-card-border"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex text-amber-400 space-x-1">
+                  <div className="flex text-[#fff800] space-x-1">
                     {[...Array(t.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                      <Star key={i} className="w-4 h-4 fill-[#fff800]" />
                     ))}
                   </div>
-                  <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-sm bg-[#182222] text-[#fff800] border border-border">
                     {t.highlight}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed italic">
+                <p className="text-sm text-slate-300 leading-relaxed italic">
                   "{t.content}"
                 </p>
               </div>
 
-              <div className="flex items-center space-x-3.5 pt-4 border-t border-white/[0.06]">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white text-xs font-mono shadow-md">
+              <div className="flex items-center space-x-3.5 pt-4 border-t border-border">
+                <div className="w-9 h-9 rounded-md bg-[#182222] border border-border flex items-center justify-center font-bold text-white text-xs font-mono">
                   {t.avatar}
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-white">{t.name}</div>
-                  <div className="text-[11px] text-slate-400">{t.role}</div>
+                  <div className="text-sm font-semibold text-white">{t.name}</div>
+                  <div className="text-xs text-muted-foreground">{t.role}</div>
                 </div>
               </div>
             </div>

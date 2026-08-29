@@ -75,64 +75,60 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050814] text-slate-100 flex flex-col justify-between relative overflow-hidden">
-      {/* Background Radiance */}
-      <div className="hero-glow-cyan top-1/3 left-1/4 -translate-x-1/2 -translate-y-1/2" />
-      <div className="hero-glow-purple bottom-1/3 right-1/4 translate-x-1/2 translate-y-1/2 opacity-60" />
-
-      {/* Top Bar */}
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex items-center justify-between relative z-10">
+    <div className="min-h-screen bg-[#0f1515] text-[#f4f4f5] flex flex-col justify-between relative overflow-hidden">
+      {/* Top Navigation */}
+      <div className="max-w-7xl w-full mx-auto px-6 sm:px-8 pt-8 flex items-center justify-between relative z-10">
         <Link
           href="/"
-          className="inline-flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-white transition-colors"
+          className="inline-flex items-center space-x-2 text-xs font-medium text-muted-foreground hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Landing</span>
+          <span>Back to Home</span>
         </Link>
       </div>
 
       {/* Main Auth Container */}
-      <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="max-w-4xl w-full mx-auto px-6 sm:px-8 py-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Side: Brand Narrative */}
           <div className="lg:col-span-5 space-y-6 hidden lg:flex flex-col justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 ring-1 ring-white/20">
-                <TrendingUp className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-2.5">
+              <div className="w-9 h-9 rounded-lg bg-[#182222] border border-border flex items-center justify-center shadow-sm">
+                <TrendingUp className="w-5 h-5 text-[#fff800]" />
               </div>
-              <span className="text-xl font-black tracking-tight text-white block">SIRUS</span>
+              <span className="text-xl font-bold tracking-tight text-white block">SIRUS QUANT</span>
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-2xl font-extrabold text-white leading-snug">
-                Direct Market Access &amp; <span className="text-gradient-cyan">Multi-Tenant Vault</span>
+              <h2 className="text-2xl font-medium tracking-tight text-white leading-snug">
+                Direct Market Access &amp; Isolated Vault
               </h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Connect your Demat and exchange accounts with bank-grade AES-256 envelope security. Execute automated algorithmic models across Zerodha, Alpaca, and KuCoin.
               </p>
             </div>
           </div>
 
           {/* Right Side: Auth Form Card */}
-          <div className="lg:col-span-7 launch-card rounded-3xl p-8 sm:p-10 border border-white/10 flex flex-col justify-center space-y-6">
+          <div className="lg:col-span-7 rounded-lg bg-[#0f1515]/80 backdrop-blur-[6px] p-8 sm:p-10 border border-border flex flex-col justify-center space-y-6 pricing-card-border shadow-2xl">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                {isSignUp ? "Create Quant Account" : "Sign In to Terminal"}
+              <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-white">
+                {isSignUp ? "Create Quant Account" : "Sign in to Terminal"}
               </h1>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Enter your credentials to access your isolated portfolio dashboard
               </p>
             </div>
 
             {/* Tab selector */}
-            <div className="flex bg-slate-900/80 p-1 rounded-2xl border border-white/[0.08]">
+            <div className="flex bg-[#182222] p-1 rounded-md border border-border">
               <button
                 onClick={() => {
                   setIsSignUp(false);
                   setError("");
                 }}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
-                  !isSignUp ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-md" : "text-slate-400 hover:text-white"
+                className={`flex-1 py-2 rounded-sm text-xs font-semibold transition-all ${
+                  !isSignUp ? "bg-[#0f1515] text-foreground shadow-xs border border-border/60" : "text-muted-foreground hover:text-white"
                 }`}
               >
                 Sign In
@@ -142,8 +138,8 @@ export default function LoginPage() {
                   setIsSignUp(true);
                   setError("");
                 }}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
-                  isSignUp ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shadow-md" : "text-slate-400 hover:text-white"
+                className={`flex-1 py-2 rounded-sm text-xs font-semibold transition-all ${
+                  isSignUp ? "bg-[#0f1515] text-foreground shadow-xs border border-border/60" : "text-muted-foreground hover:text-white"
                 }`}
               >
                 Create Account
@@ -151,13 +147,13 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium">
+              <div className="p-3 rounded-md bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium">
                 {error}
               </div>
             )}
 
             {msg && (
-              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center space-x-2">
+              <div className="p-3 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center space-x-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 <span>{msg}</span>
               </div>
@@ -165,31 +161,31 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">Email Address</label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
+                  <Mail className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="name@domain.com"
-                    className="w-full bg-slate-950/80 border border-white/10 rounded-2xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full bg-[#182222] border border-border rounded-md py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-border-light transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">Password</label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
+                  <Lock className="w-4 h-4 text-muted-foreground absolute left-3.5 top-3.5" />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="••••••••••••"
-                    className="w-full bg-slate-950/80 border border-white/10 rounded-2xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full bg-[#182222] border border-border rounded-md py-2.5 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-border-light transition-colors"
                   />
                 </div>
               </div>
@@ -199,7 +195,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="text-xs text-cyan-400 hover:underline font-medium"
+                    className="text-xs text-muted-foreground hover:text-foreground underline transition-colors"
                   >
                     Forgot Password?
                   </button>
@@ -209,22 +205,22 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs transition-all shadow-xl shadow-cyan-500/25 flex items-center justify-center space-x-2 ring-1 ring-white/20"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium cursor-pointer relative bg-[#fcfcfc33] text-white secondary-button-animation h-11 px-5 py-[10px] w-full border border-white/10 hover:bg-white/20"
               >
                 <span>{loading ? "Authenticating..." : isSignUp ? "Create Account & Enter Terminal" : "Sign In to Terminal"}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </button>
             </form>
 
             <div className="flex items-center">
-              <div className="flex-1 border-t border-white/[0.08]" />
-              <span className="px-3 text-[11px] text-slate-500 uppercase font-semibold">Or continue with</span>
-              <div className="flex-1 border-t border-white/[0.08]" />
+              <div className="flex-1 border-t border-border" />
+              <span className="px-3 text-[11px] text-muted-foreground uppercase font-semibold">Or continue with</span>
+              <div className="flex-1 border-t border-border" />
             </div>
 
             <button
               onClick={handleGoogle}
-              className="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-white/10 text-slate-200 font-semibold text-xs transition-all flex items-center justify-center space-x-2.5"
+              className="w-full py-2.5 rounded-md bg-[#182222] hover:bg-[#182222]/80 border border-border text-slate-200 font-medium text-xs transition-all flex items-center justify-center space-x-2.5"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -248,6 +244,10 @@ export default function LoginPage() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="py-6 text-center text-xs text-muted-foreground border-t border-border">
+        © {new Date().getFullYear()} SIRUS Quantitative Technologies. All rights reserved.
       </div>
     </div>
   );

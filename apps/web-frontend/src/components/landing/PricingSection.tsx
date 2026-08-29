@@ -2,20 +2,20 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, Zap, Shield } from "lucide-react";
+import { CheckCircle2, ArrowRight } from "lucide-react";
 
 export default function PricingSection() {
-  const [annualBilling, setAnnualBilling] = useState(true);
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("annual");
 
   const tiers = [
     {
-      name: "Starter Sandbox",
+      name: "Starter",
       monthlyPrice: "$0",
       annualPrice: "$0",
       period: "forever free",
-      desc: "Ideal for retail quants evaluating strategies in paper trading environment.",
+      desc: "Ideal for individual quants evaluating strategies in a paper trading sandbox.",
       popular: false,
-      cta: "Launch Sandbox",
+      cta: "Get started",
       href: "/dashboard",
       features: [
         "120+ Global Market Instruments",
@@ -31,16 +31,16 @@ export default function PricingSection() {
       monthlyPrice: "$49",
       annualPrice: "$39",
       period: "per month",
-      desc: "For systematic traders requiring live DMA order execution and multi-broker sync.",
+      desc: "Enhanced algorithmic execution for scaling traders who need live DMA & multi-broker routing.",
       popular: true,
-      cta: "Start 14-Day Free Trial",
+      cta: "Get started",
       href: "/login",
       features: [
-        "Everything in Sandbox",
+        "Everything in Starter",
         "Live DMA Broker Routing (Zerodha, Alpaca, KuCoin, IBKR)",
         "Sub-100ms High Frequency Execution",
         "Unlimited Active Algorithmic Bots",
-        "Dynamic No-Code AST & Python Strategy Canvas",
+        "Dynamic No-Code AST & Python Strategy Studio",
         "Pre-Trade Margin & Drawdown Risk Guard",
         "Real-Time Redis WebSocket Market Feeds",
         "Priority 24/7 Quant Support",
@@ -51,9 +51,9 @@ export default function PricingSection() {
       monthlyPrice: "$299",
       annualPrice: "$249",
       period: "per month",
-      desc: "Designed for hedge funds, prop trading desks, and asset management teams.",
+      desc: "Powerful multi-tenant tools designed for hedge funds, prop desks, and asset managers.",
       popular: false,
-      cta: "Contact Enterprise",
+      cta: "Contact desk",
       href: "/login",
       features: [
         "Everything in Pro Quant",
@@ -68,100 +68,125 @@ export default function PricingSection() {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden bg-slate-950/30 border-t border-white/[0.06]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Simple Plans for <span className="text-gradient-cyan">Every Scale</span>
-          </h2>
-          <p className="text-sm sm:text-base text-slate-400">
-            Start free with full backtesting and paper trading. Upgrade only when you're ready to deploy live capital.
-          </p>
+    <section className="mx-auto max-w-7xl px-6 md:px-8 py-20 relative flex flex-col items-center justify-between">
+      {/* Header */}
+      <div className="text-center w-full max-w-3xl mb-12">
+        <h2 className="text-[36px] leading-[40px] md:text-[64px] md:leading-[68px] tracking-[-1.6px] font-medium text-white">
+          Powerful trading tools.<br />Simple pricing.
+        </h2>
+        <p className="mt-4 text-[16px] leading-[24px] md:text-[18px] md:leading-[28px] text-muted-foreground">
+          Plans for systematic traders of every size — from sandbox researchers to institutional desks.
+        </p>
+      </div>
 
-          {/* Billing Switch (Monthly / Annual) */}
-          <div className="pt-4 flex items-center justify-center space-x-3">
-            <span className={`text-xs font-semibold ${!annualBilling ? "text-white" : "text-slate-400"}`}>
-              Monthly
+      {/* Paddle Tab Switcher (Monthly / Annual) */}
+      <div className="flex justify-center mb-12">
+        <div role="tablist" aria-orientation="horizontal" className="inline-flex h-12 items-center gap-[6px] justify-center rounded-md bg-[#0f1515] px-[6px] py-[6px] text-muted-foreground border-border border">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={billingPeriod === "monthly"}
+            onClick={() => setBillingPeriod("monthly")}
+            className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm h-9 px-4 text-sm font-medium transition-all ${
+              billingPeriod === "monthly"
+                ? "bg-[#182222] text-foreground shadow-xs border border-border/60 font-semibold"
+                : "hover:text-foreground"
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={billingPeriod === "annual"}
+            onClick={() => setBillingPeriod("annual")}
+            className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm h-9 px-4 text-sm font-medium transition-all ${
+              billingPeriod === "annual"
+                ? "bg-[#182222] text-foreground shadow-xs border border-border/60 font-semibold"
+                : "hover:text-foreground"
+            }`}
+          >
+            <span>Annual</span>
+            <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#fff800]/10 text-[#fff800] border border-[#fff800]/20">
+              Save 20%
             </span>
-            <button
-              onClick={() => setAnnualBilling(!annualBilling)}
-              className="w-12 h-6 rounded-full bg-slate-900 border border-white/10 p-0.5 relative transition-colors focus:outline-none"
-            >
-              <div
-                className={`w-5 h-5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 shadow-md transition-transform duration-200 ${
-                  annualBilling ? "translate-x-6" : "translate-x-0"
-                }`}
-              />
-            </button>
-            <div className="flex items-center space-x-1.5">
-              <span className={`text-xs font-semibold ${annualBilling ? "text-white" : "text-slate-400"}`}>
-                Annual Billing
-              </span>
-              <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                Save 20%
-              </span>
-            </div>
-          </div>
+          </button>
         </div>
+      </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {tiers.map((tier, idx) => (
-            <div
-              key={idx}
-              className={`launch-card rounded-3xl p-8 border flex flex-col justify-between relative transition-all duration-300 ${
-                tier.popular
-                  ? "border-cyan-500/50 bg-slate-900/80 shadow-2xl shadow-cyan-500/15 lg:-translate-y-2 ring-1 ring-cyan-500/30"
-                  : "border-white/[0.08]"
-              }`}
-            >
+      {/* Paddle 3-Tier Grid */}
+      <div className="isolate mx-auto grid grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3 w-full">
+        {tiers.map((tier, idx) => (
+          <div
+            key={idx}
+            className="rounded-lg bg-[#0f1515]/70 backdrop-blur-[6px] overflow-hidden border border-border flex flex-col justify-between"
+          >
+            <div className="flex gap-5 flex-col rounded-lg rounded-b-none pricing-card-border relative">
+              {/* Featured Neon Glows for Pro Tier */}
               {tier.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-[11px] font-extrabold uppercase tracking-wider shadow-md">
-                  Most Popular
-                </div>
+                <>
+                  <div className="featured-yellow-highlight-bg" />
+                  <div className="featured-hard-blur-bg" />
+                  <div className="featured-vertical-hard-blur-bg" />
+                  <div className="featured-soft-blur-bg" />
+                </>
               )}
 
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-bold text-white">{tier.name}</h3>
-                  <p className="text-xs text-slate-400 mt-1 min-h-[32px]">{tier.desc}</p>
+              <div className={`flex justify-between items-center px-8 pt-8 ${tier.popular ? "featured-price-title" : ""}`}>
+                <div className="flex items-center gap-[10px]">
+                  <div className="w-8 h-8 rounded-lg bg-[#182222] border border-border flex items-center justify-center text-xs font-bold text-white font-mono">
+                    {tier.name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <p className="text-[20px] leading-[30px] font-semibold text-white">{tier.name}</p>
                 </div>
+                {tier.popular && (
+                  <div className="flex items-center px-2.5 py-0.5 rounded-sm border border-secondary-foreground/10 text-[13px] font-medium featured-card-badge">
+                    Most popular
+                  </div>
+                )}
+              </div>
 
-                <div className="flex items-baseline space-x-2">
-                  <span className="text-4xl sm:text-5xl font-black text-white tracking-tight font-mono">
-                    {annualBilling ? tier.annualPrice : tier.monthlyPrice}
+              {/* Price Display */}
+              <div className="mt-4 flex flex-col px-8">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[40px] md:text-[48px] font-bold tracking-tight text-white font-mono">
+                    {billingPeriod === "annual" ? tier.annualPrice : tier.monthlyPrice}
                   </span>
-                  <span className="text-xs text-slate-400 font-medium">/{tier.period}</span>
-                </div>
-
-                <Link
-                  href={tier.href}
-                  className={`w-full py-3.5 rounded-2xl font-bold text-xs transition-all flex items-center justify-center space-x-2 ${
-                    tier.popular
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-xl shadow-cyan-500/25 ring-1 ring-white/20"
-                      : "bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10"
-                  }`}
-                >
-                  <span>{tier.cta}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-
-                <div className="space-y-3 pt-6 border-t border-white/[0.06]">
-                  <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Features Included:</span>
-                  <ul className="space-y-2.5 text-xs text-slate-300">
-                    {tier.features.map((feat, i) => (
-                      <li key={i} className="flex items-start space-x-2.5">
-                        <Check className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="text-sm text-muted-foreground font-normal">/{tier.period}</span>
                 </div>
               </div>
+
+              <div className="px-8">
+                <div data-orientation="horizontal" role="none" className="shrink-0 h-[1px] w-full bg-border" />
+              </div>
+
+              <div className="px-8 text-[15px] leading-[24px] text-muted-foreground min-h-[48px]">
+                {tier.desc}
+              </div>
             </div>
-          ))}
-        </div>
+
+            {/* CTA Button */}
+            <div className="px-8 mt-6">
+              <Link
+                href={tier.href}
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium cursor-pointer relative bg-[#fcfcfc33] text-white secondary-button-animation h-11 px-5 py-[10px] w-full border border-white/10 hover:bg-white/20"
+              >
+                <span>{tier.cta}</span>
+                <ArrowRight className="w-4 h-4 ml-1.5" />
+              </Link>
+            </div>
+
+            {/* Feature Bullet List */}
+            <ul className="p-8 flex flex-col gap-3.5 mt-2">
+              {tier.features.map((feat, i) => (
+                <li key={i} className="flex gap-x-3 items-start">
+                  <CheckCircle2 className="h-5 w-5 text-[#fff800] flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-slate-300">{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );

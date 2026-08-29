@@ -11,7 +11,7 @@ export default function ThreeCanvasBackground() {
 
     // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x050814, 0.035);
+    scene.fog = new THREE.FogExp2(0x0f1515, 0.035);
 
     const camera = new THREE.PerspectiveCamera(
       60,
@@ -38,7 +38,7 @@ export default function ThreeCanvasBackground() {
 
     const colorCyan = new THREE.Color(0x00f2fe);
     const colorEmerald = new THREE.Color(0x10b981);
-    const colorBlue = new THREE.Color(0x3b82f6);
+    const colorYellow = new THREE.Color(0xfff800);
 
     let i = 0;
     for (let r = 0; r < rows; r++) {
@@ -50,7 +50,7 @@ export default function ThreeCanvasBackground() {
         positions[i * 3 + 2] = z;
 
         const mixRatio = (c / cols + r / rows) / 2;
-        const color = colorCyan.clone().lerp(mixRatio > 0.5 ? colorEmerald : colorBlue, mixRatio);
+        const color = colorCyan.clone().lerp(mixRatio > 0.5 ? colorYellow : colorEmerald, mixRatio);
         colors[i * 3] = color.r;
         colors[i * 3 + 1] = color.g;
         colors[i * 3 + 2] = color.b;
@@ -64,22 +64,18 @@ export default function ThreeCanvasBackground() {
 
     // Particle material
     const particleMaterial = new THREE.PointsMaterial({
-      size: 0.28,
+      size: 0.25,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.45,
     });
 
     const particles = new THREE.Points(geometry, particleMaterial);
     scene.add(particles);
 
-    // Add ambient lights
+    // Ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
-
-    const pointLight = new THREE.PointLight(0x00f2fe, 2, 50);
-    pointLight.position.set(0, 10, 0);
-    scene.add(pointLight);
 
     // Mouse tracking for interactive 3D rotation
     let mouseX = 0;
@@ -118,10 +114,9 @@ export default function ThreeCanvasBackground() {
         for (let c = 0; c < cols; c++) {
           const x = (c - cols / 2) * 1.4;
           const z = (r - rows / 2) * 1.4;
-          // Volatility wave equation
           const y =
-            Math.sin(x * 0.25 + elapsedTime * 1.8) * 1.2 +
-            Math.cos(z * 0.25 + elapsedTime * 1.4) * 1.2;
+            Math.sin(x * 0.25 + elapsedTime * 1.5) * 1.0 +
+            Math.cos(z * 0.25 + elapsedTime * 1.2) * 1.0;
 
           posArr[idx * 3 + 1] = y;
           idx++;
@@ -129,7 +124,6 @@ export default function ThreeCanvasBackground() {
       }
       posAttr.needsUpdate = true;
 
-      // Smooth camera lerp on mouse movement
       targetX += (mouseX - targetX) * 0.05;
       targetY += (mouseY - targetY) * 0.05;
 
@@ -138,7 +132,7 @@ export default function ThreeCanvasBackground() {
       camera.position.y = 12 + targetY * 15;
       camera.lookAt(0, 0, 0);
 
-      particles.rotation.y = elapsedTime * 0.03;
+      particles.rotation.y = elapsedTime * 0.02;
 
       renderer.render(scene, camera);
     };
@@ -161,7 +155,7 @@ export default function ThreeCanvasBackground() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none -z-10 bg-[#050814] overflow-hidden"
+      className="fixed inset-0 pointer-events-none -z-10 bg-[#0f1515] overflow-hidden"
     />
   );
 }

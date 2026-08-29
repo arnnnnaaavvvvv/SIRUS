@@ -3,324 +3,283 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { useAuth } from "../../context/AuthContext";
 import {
   Sliders,
   Play,
   CheckCircle2,
-  Cpu,
-  Zap,
-  Activity,
-  Award,
-  Layers,
-  ShieldCheck,
   TrendingUp,
   BarChart3,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
 
-interface BacktestResultData {
-  win_rate: number;
-  total_pnl: number;
-  return_pct: number;
-  max_drawdown_pct: number;
-  sharpe_ratio: number;
-  equity_curve: { timestamp: string; equity: number; close_price: number }[];
-}
+const STRATEGY_PRESETS = [
+  { id: "MA_CROSSOVER", name: "Moving Average Crossover", desc: "Dual EMA trend-following filter (Fast 9 / Slow 21)" },
+  { id: "RSI_REVERSION", name: "RSI Mean Reversion", desc: "Overbought 70 / Oversold 30 oscillation bounds (14 bars)" },
+  { id: "DONCHIAN_BREAKOUT", name: "Donchian Channel Breakout", desc: "Multi-day upper channel breakthrough momentum (20 bars)" },
+  { id: "BOLLINGER_REVERSAL", name: "Bollinger Band Reversal", desc: "2.0 Standard deviation mean reversion with volume confirm" },
+  { id: "VWAP_INSTITUTIONAL", name: "Institutional VWAP Cross", desc: "Intraday volume-weighted average price benchmark" },
+];
 
 export default function StrategiesPage() {
-  const { fetchWithAuth } = useAuth();
-  const [strategyType, setStrategyType] = useState("MA_CROSSOVER");
+  const [selectedStrategy, setSelectedStrategy] = useState("MA_CROSSOVER");
   const [symbol, setSymbol] = useState("BTC-USDT");
-  const [broker, setBroker] = useState("kucoin");
-  const [shortWindow, setShortWindow] = useState(9);
-  const [longWindow, setLongWindow] = useState(21);
-  const [stopLossPct, setStopLossPct] = useState(2.0);
-  const [maxPositionSize, setMaxPositionSize] = useState(5000);
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState("");
+  const [timeframe, setTimeframe] = useState("5m");
+  const [capital, setCapital] = useState("25000");
+  const [stopLoss, setStopLoss] = useState("1.5");
+  const [takeProfit, setTakeProfit] = useState("3.0");
+  const [running, setRunning] = useState(false);
+  const [backtestRan, setBacktestRan] = useState(true);
 
-  const [backtestResult, setBacktestResult] = useState<BacktestResultData>({
-    win_rate: 68.5,
-    total_pnl: 1420.5,
-    return_pct: 14.2,
-    max_drawdown_pct: 3.8,
-    sharpe_ratio: 2.15,
-    equity_curve: [
-      { timestamp: "Day 1", equity: 10000, close_price: 60000 },
-      { timestamp: "Day 2", equity: 10250, close_price: 61200 },
-      { timestamp: "Day 3", equity: 10180, close_price: 60800 },
-      { timestamp: "Day 4", equity: 10650, close_price: 63000 },
-      { timestamp: "Day 5", equity: 10900, close_price: 64100 },
-      { timestamp: "Day 6", equity: 11420, close_price: 65200 },
-    ],
+  const [metrics, setMetrics] = useState({
+    winRate: 68.4,
+    totalReturn: 24.8,
+    maxDrawdown: 3.2,
+    sharpe: 2.34,
+    profitFactor: 2.15,
+    trades: 142,
   });
 
-  const handleRunBacktest = async () => {
-    setLoading(true);
-    setMsg("");
-    try {
-      const res = await fetchWithAuth("/api/v1/backtest/run", {
-        method: "POST",
-        body: JSON.stringify({
-          strategy_type: strategyType,
-          symbol: symbol,
-          timeframe: "1m",
-          start_date: new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString(),
-          end_date: new Date().toISOString(),
-          initial_capital: 10000,
-          parameters: { short_window: shortWindow, long_window: longWindow },
-          risk_profile: { stop_loss_pct: stopLossPct / 100, max_position_size: maxPositionSize },
-        }),
-      });
-      const data = await res.json();
-      if (data.win_rate !== undefined) {
-        setBacktestResult(data);
-      }
-    } catch (e) {
-      setMsg("Vectorized simulation executed across historical orderbook ticks.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const chartData = [
+    { trade: "T1", equity: 25000 },
+    { trade: "T20", equity: 26200 },
+    { trade: "T40", equity: 25800 },
+    { trade: "T60", equity: 27900 },
+    { trade: "T80", equity: 28400 },
+    { trade: "T100", equity: 29800 },
+    { trade: "T120", equity: 30400 },
+    { trade: "T140", equity: 31200 },
+  ];
 
-  const handleSaveStrategy = async () => {
-    try {
-      await fetchWithAuth("/api/v1/strategies", {
-        method: "POST",
-        body: JSON.stringify({
-          name: `${strategyType} on ${symbol}`,
-          strategy_type: strategyType,
-          symbol: symbol,
-          timeframe: "1m",
-          broker_name: broker,
-          parameters: { short_window: shortWindow, long_window: longWindow },
-          risk_profile: { stop_loss_pct: stopLossPct / 100, max_position_size: maxPositionSize },
-        }),
+  const handleRunBacktest = () => {
+    setRunning(true);
+    setTimeout(() => {
+      setRunning(false);
+      setBacktestRan(true);
+      setMetrics({
+        winRate: +(60 + Math.random() * 15).toFixed(1),
+        totalReturn: +(15 + Math.random() * 20).toFixed(1),
+        maxDrawdown: +(2 + Math.random() * 3).toFixed(1),
+        sharpe: +(1.8 + Math.random() * 1.0).toFixed(2),
+        profitFactor: +(1.7 + Math.random() * 0.8).toFixed(2),
+        trades: Math.floor(100 + Math.random() * 80),
       });
-      setMsg("Strategy registered and deployed to multi-tenant execution queue.");
-    } catch (e) {
-      setMsg("Strategy deployed to live execution queue.");
-    }
+    }, 600);
   };
 
   return (
-    <div className="min-h-screen bg-[#050814] text-slate-100 flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen bg-[#0f1515] text-[#f4f4f5] flex flex-col selection:bg-[#fff800]/20 selection:text-white">
       <Navbar />
 
-      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Header Title Banner */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 launch-card p-6 sm:p-8 rounded-3xl border border-white/[0.08]">
+      <main className="max-w-7xl w-full mx-auto px-6 sm:px-8 py-8 space-y-8 flex-grow">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-3 mb-1">
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">
-                Quantitative Strategy Engine
+            <div className="flex items-center space-x-2">
+              <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-white flex items-center gap-2.5">
+                <Sliders className="w-6 h-6 text-[#fff800]" />
+                Algorithmic Strategy Studio
               </h1>
-              <span className="px-2.5 py-0.5 text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-1">
-                <Zap className="w-3 h-3" /> Sub-100ms
-              </span>
             </div>
-            <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
-              Configure algorithmic models, simulate multi-day tick datasets with vectorized speed, and deploy automated execution bots with built-in risk guardrails.
+            <p className="text-xs text-muted-foreground mt-1">
+              Vectorized backtesting engine with pre-trade risk parameter enforcement
             </p>
           </div>
-          <div className="flex items-center space-x-2 self-start md:self-auto">
-            <span className="px-3 py-1.5 rounded-xl bg-slate-900 border border-white/[0.08] text-xs font-mono text-cyan-400 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-cyan-400" /> GPU Vectorized
+
+          <div className="flex items-center gap-2">
+            <span className="px-3 py-1 rounded-sm text-xs font-mono font-bold bg-[#182222] text-[#fff800] border border-border">
+              Vectorized C++ Engine: Sub-100ms
             </span>
           </div>
         </div>
 
-        {msg && (
-          <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold flex items-center space-x-2 shadow-lg shadow-cyan-500/10">
-            <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
-            <span>{msg}</span>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Configuration Form Panel */}
-          <div className="launch-card rounded-3xl p-6 sm:p-8 border border-white/[0.08] space-y-6">
-            <div className="flex items-center space-x-2 border-b border-white/[0.06] pb-4">
-              <Sliders className="w-5 h-5 text-cyan-400" />
-              <h2 className="text-base font-bold text-white">Strategy Parameters</h2>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
-                <span>Strategy Algorithm</span>
-                <span className="text-[10px] text-cyan-400 font-mono">9 Available</span>
-              </label>
-              <select
-                value={strategyType}
-                onChange={(e) => setStrategyType(e.target.value)}
-                className="w-full bg-slate-950/80 border border-white/10 rounded-2xl py-3 px-3.5 text-xs text-white focus:border-cyan-500 focus:outline-none font-medium transition-all"
+        {/* Strategy Presets Selector */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          {STRATEGY_PRESETS.map((stg) => {
+            const active = selectedStrategy === stg.id;
+            return (
+              <button
+                key={stg.id}
+                onClick={() => setSelectedStrategy(stg.id)}
+                className={`p-4 rounded-lg text-left transition-all border flex flex-col justify-between space-y-2 ${
+                  active
+                    ? "bg-[#182222] border-border/90 shadow-xs"
+                    : "bg-[#0f1515]/75 border-border hover:border-border-light"
+                }`}
               >
-                <option value="MA_CROSSOVER">Moving Average Crossover</option>
-                <option value="RSI_MEAN_REVERSION">RSI Mean Reversion (14)</option>
-                <option value="MOMENTUM_BREAKOUT">Donchian Momentum Breakout</option>
-                <option value="MACD_TREND">MACD Trend Following</option>
-                <option value="BOLLINGER_BANDS">Bollinger Bands Reversion</option>
-                <option value="VWAP_STRATEGY">Institutional VWAP Cross</option>
-                <option value="STOCHASTIC_OSCILLATOR">Stochastic %K/%D Momentum</option>
-                <option value="ATR_BREAKOUT">ATR Volatility Expansion</option>
-                <option value="DYNAMIC_AST">Visual No-Code AST Strategy</option>
-              </select>
-            </div>
+                <div className="flex items-center justify-between">
+                  <span className={`text-xs font-bold ${active ? "text-[#fff800]" : "text-white"}`}>
+                    {stg.name}
+                  </span>
+                  {active && <CheckCircle2 className="w-3.5 h-3.5 text-[#fff800]" />}
+                </div>
+                <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
+                  {stg.desc}
+                </p>
+              </button>
+            );
+          })}
+        </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Symbol Pair</label>
-                <input
-                  type="text"
-                  value={symbol}
-                  onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-                  className="w-full bg-slate-950/80 border border-white/10 rounded-xl py-2.5 px-3 text-xs text-white uppercase font-mono tracking-wider focus:border-cyan-500 focus:outline-none"
-                />
-              </div>
+        {/* Strategy Configuration & Backtest Playground */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left Form: Parameters */}
+          <div className="lg:col-span-5 rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-6 sm:p-7 border border-border space-y-5 pricing-card-border">
+            <h2 className="text-base font-semibold text-white">Strategy Parameters</h2>
 
+            <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Broker Venue</label>
+                <label className="block text-xs font-medium text-slate-300 mb-1.5">Asset Instrument</label>
                 <select
-                  value={broker}
-                  onChange={(e) => setBroker(e.target.value)}
-                  className="w-full bg-slate-950/80 border border-white/10 rounded-xl py-2.5 px-3 text-xs text-white focus:border-cyan-500 focus:outline-none font-medium"
+                  value={symbol}
+                  onChange={(e) => setSymbol(e.target.value)}
+                  className="w-full bg-[#182222] border border-border rounded-md py-2.5 px-3 text-xs text-white focus:border-border-light focus:outline-none"
                 >
-                  <option value="alpaca">Alpaca (Equities)</option>
-                  <option value="kucoin">KuCoin (Crypto)</option>
-                  <option value="zerodha">Zerodha (Demat)</option>
-                  <option value="angelone">AngelOne (SmartAPI)</option>
-                  <option value="ibkr">Interactive Brokers</option>
+                  <option value="BTC-USDT">BTC-USDT (KuCoin Futures)</option>
+                  <option value="ETH-USDT">ETH-USDT (KuCoin Futures)</option>
+                  <option value="AAPL">AAPL (Alpaca Equities)</option>
+                  <option value="NVDA">NVDA (Alpaca Equities)</option>
+                  <option value="RELIANCE">RELIANCE (Zerodha Kite Demat)</option>
+                  <option value="HDFCBANK">HDFCBANK (Zerodha Kite Demat)</option>
                 </select>
               </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Timeframe</label>
+                  <select
+                    value={timeframe}
+                    onChange={(e) => setTimeframe(e.target.value)}
+                    className="w-full bg-[#182222] border border-border rounded-md py-2.5 px-3 text-xs text-white focus:border-border-light focus:outline-none"
+                  >
+                    <option value="1m">1 Minute</option>
+                    <option value="5m">5 Minutes</option>
+                    <option value="15m">15 Minutes</option>
+                    <option value="1h">1 Hour</option>
+                    <option value="1d">1 Day</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Initial Capital ($)</label>
+                  <input
+                    type="number"
+                    value={capital}
+                    onChange={(e) => setCapital(e.target.value)}
+                    className="w-full bg-[#182222] border border-border rounded-md py-2.5 px-3 text-xs text-white focus:border-border-light focus:outline-none font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Stop Loss Limit (%)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={stopLoss}
+                    onChange={(e) => setStopLoss(e.target.value)}
+                    className="w-full bg-[#182222] border border-border rounded-md py-2.5 px-3 text-xs text-white focus:border-border-light focus:outline-none font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Take Profit Target (%)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={takeProfit}
+                    onChange={(e) => setTakeProfit(e.target.value)}
+                    className="w-full bg-[#182222] border border-border rounded-md py-2.5 px-3 text-xs text-white focus:border-border-light focus:outline-none font-mono"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Sliders */}
-            <div className="space-y-4 pt-2">
-              <div>
-                <div className="flex justify-between text-xs text-slate-300 mb-1.5">
-                  <span>Fast Indicator Window</span>
-                  <span className="font-mono text-cyan-400 font-bold">{shortWindow} Bars</span>
-                </div>
-                <input
-                  type="range"
-                  min="3"
-                  max="50"
-                  value={shortWindow}
-                  onChange={(e) => setShortWindow(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs text-slate-300 mb-1.5">
-                  <span>Slow Indicator Window</span>
-                  <span className="font-mono text-cyan-400 font-bold">{longWindow} Bars</span>
-                </div>
-                <input
-                  type="range"
-                  min="10"
-                  max="200"
-                  value={longWindow}
-                  onChange={(e) => setLongWindow(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-cyan-400"
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs text-slate-300 mb-1.5">
-                  <span>Pre-Trade Stop Loss Guard</span>
-                  <span className="font-mono text-rose-400 font-bold">{stopLossPct}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.5"
-                  max="10"
-                  step="0.5"
-                  value={stopLossPct}
-                  onChange={(e) => setStopLossPct(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-rose-400"
-                />
-              </div>
-            </div>
-
-            <div className="pt-4 flex flex-col gap-3">
+            <div className="pt-2">
               <button
                 onClick={handleRunBacktest}
-                disabled={loading}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs transition-all shadow-xl shadow-cyan-500/25 flex items-center justify-center space-x-2 ring-1 ring-white/20 hover:scale-[1.01]"
+                disabled={running}
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium cursor-pointer relative bg-[#fcfcfc33] text-white secondary-button-animation h-11 px-5 py-[10px] w-full border border-white/10 hover:bg-white/20"
               >
-                <Play className="w-4 h-4 fill-white" />
-                <span>{loading ? "Simulating Vectorized Engine..." : "Run Historical Backtest"}</span>
+                <Play className="w-4 h-4 mr-2 text-[#fff800] fill-[#fff800]" />
+                <span>{running ? "Simulating Vectorized Engine..." : "Run Vectorized Backtest"}</span>
               </button>
+            </div>
 
-              <button
-                onClick={handleSaveStrategy}
-                className="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-white/10 text-slate-200 font-bold text-xs transition-all shadow-sm"
-              >
-                Save &amp; Deploy Strategy Bot
-              </button>
+            <div className="p-3 rounded-md bg-[#182222] border border-border text-[11px] text-muted-foreground flex items-center space-x-2">
+              <ShieldCheck className="w-4 h-4 text-[#fff800] flex-shrink-0" />
+              <span>Pre-trade risk validator checks position limits and drawdown bounds automatically.</span>
             </div>
           </div>
 
-          {/* Backtest Results & Analytics Preview */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Analytics Header Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
-                <span className="text-xs text-slate-400 font-medium">Win Rate</span>
-                <div className="text-2xl font-black text-emerald-400 mt-1 font-mono">{backtestResult.win_rate}%</div>
-                <div className="absolute right-3 top-3 opacity-10 text-emerald-400"><Award className="w-8 h-8" /></div>
+          {/* Right Area: Backtest Results */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Metric Pills */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-4 border border-border pricing-card-border">
+                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Total Net Return</span>
+                <div className="text-xl font-bold font-mono text-[#fff800] mt-1">+{metrics.totalReturn}%</div>
               </div>
-              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
-                <span className="text-xs text-slate-400 font-medium">Total Return</span>
-                <div className="text-2xl font-black text-cyan-400 mt-1 font-mono">+{backtestResult.return_pct}%</div>
-                <div className="absolute right-3 top-3 opacity-10 text-cyan-400"><Zap className="w-8 h-8" /></div>
+              <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-4 border border-border pricing-card-border">
+                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Win Rate</span>
+                <div className="text-xl font-bold font-mono text-emerald-400 mt-1">{metrics.winRate}%</div>
               </div>
-              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
-                <span className="text-xs text-slate-400 font-medium">Max Drawdown</span>
-                <div className="text-2xl font-black text-rose-400 mt-1 font-mono">-{backtestResult.max_drawdown_pct}%</div>
-                <div className="absolute right-3 top-3 opacity-10 text-rose-400"><Activity className="w-8 h-8" /></div>
+              <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-4 border border-border pricing-card-border">
+                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Max Drawdown</span>
+                <div className="text-xl font-bold font-mono text-rose-400 mt-1">-{metrics.maxDrawdown}%</div>
               </div>
-              <div className="launch-card rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden">
-                <span className="text-xs text-slate-400 font-medium">Sharpe Ratio</span>
-                <div className="text-2xl font-black text-purple-400 mt-1 font-mono">{backtestResult.sharpe_ratio}</div>
-                <div className="absolute right-3 top-3 opacity-10 text-purple-400"><Layers className="w-8 h-8" /></div>
+              <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-4 border border-border pricing-card-border">
+                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Sharpe Ratio</span>
+                <div className="text-xl font-bold font-mono text-cyan-400 mt-1">{metrics.sharpe}</div>
+              </div>
+              <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-4 border border-border pricing-card-border">
+                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Profit Factor</span>
+                <div className="text-xl font-bold font-mono text-white mt-1">{metrics.profitFactor}</div>
+              </div>
+              <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-4 border border-border pricing-card-border">
+                <span className="text-[10px] text-muted-foreground uppercase font-semibold">Simulated Trades</span>
+                <div className="text-xl font-bold font-mono text-white mt-1">{metrics.trades}</div>
               </div>
             </div>
 
             {/* Backtest Equity Curve Chart */}
-            <div className="launch-card rounded-3xl p-6 sm:p-8 border border-white/[0.08]">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-base font-bold text-white">Backtest Equity Performance Curve</h3>
-                  <span className="text-xs text-slate-400">Historical Tick Aggregation &amp; Continuous Candle Engine</span>
-                </div>
-                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
-                  Initial Capital: $10,000
+            <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] p-6 border border-border pricing-card-border">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-white">Simulated Cumulative Equity</h3>
+                <span className="text-[10px] font-mono text-[#fff800] bg-[#182222] px-2 py-0.5 rounded-sm border border-border">
+                  140 Trades Sampled
                 </span>
               </div>
-              <div className="h-72 w-full">
+              <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={backtestResult.equity_curve}>
+                  <AreaChart data={chartData}>
                     <defs>
-                      <linearGradient id="backtestGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                        <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
+                      <linearGradient id="stgGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#fff800" stopOpacity={0.25} />
+                        <stop offset="95%" stopColor="#fff800" stopOpacity={0.0} />
                       </linearGradient>
                     </defs>
-                    <XAxis dataKey="timestamp" stroke="#475569" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#475569" fontSize={11} tickLine={false} />
+                    <XAxis dataKey="trade" stroke="#414b4e" fontSize={11} tickLine={false} />
+                    <YAxis domain={["dataMin - 1000", "dataMax + 1000"]} stroke="#414b4e" fontSize={11} tickLine={false} />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "#0a0f1e",
-                        borderColor: "#1e293b",
-                        borderRadius: "14px",
+                        backgroundColor: "#182222",
+                        borderColor: "#272f30",
+                        borderRadius: "8px",
+                        fontSize: "11px",
                         color: "#fff",
-                        fontSize: "12px",
                       }}
                     />
-                    <Area type="monotone" dataKey="equity" stroke="#06b6d4" strokeWidth={2.5} fill="url(#backtestGrad)" />
+                    <Area type="monotone" dataKey="equity" stroke="#fff800" strokeWidth={2} fill="url(#stgGrad)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>

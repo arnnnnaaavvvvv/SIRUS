@@ -238,13 +238,13 @@ function Sparkline({ data, positive }: { data: number[]; positive: boolean }) {
 function TickerBar({ tickers }: { tickers: Ticker[] }) {
   const items = tickers.slice(0, 24);
   return (
-    <div className="bg-gray-950 border-b border-gray-800 overflow-hidden">
+    <div className="bg-[#0f1515] border-b border-border overflow-hidden">
       <div className="flex animate-[marquee_60s_linear_infinite] whitespace-nowrap">
         {[...items, ...items].map((t, i) => (
-          <span key={i} className="inline-flex items-center space-x-1.5 px-5 py-1.5 text-xs font-mono border-r border-gray-800">
-            <span className="text-gray-300 font-bold">{t.symbol}</span>
-            <span className="text-gray-100">{CURRENCY_SYMBOL[t.currency] || ""}{fmtPrice(t.price, t.currency)}</span>
-            <span className={t.changePct >= 0 ? "text-emerald-400" : "text-red-400"}>
+          <span key={i} className="inline-flex items-center space-x-1.5 px-5 py-2 text-xs font-mono border-r border-border">
+            <span className="text-white font-bold">{t.symbol}</span>
+            <span className="text-slate-300">{CURRENCY_SYMBOL[t.currency] || ""}{fmtPrice(t.price, t.currency)}</span>
+            <span className={t.changePct >= 0 ? "text-emerald-400" : "text-rose-400"}>
               {t.changePct >= 0 ? "+" : ""}{t.changePct.toFixed(2)}%
             </span>
           </span>
@@ -343,32 +343,32 @@ export default function MarketsPage() {
   const avgChange = tickers.length ? (tickers.reduce((s, t) => s + t.changePct, 0) / tickers.length).toFixed(2) : "0.00";
 
   return (
-    <div className="min-h-screen bg-[#090d16]">
+    <div className="min-h-screen bg-[#0f1515] text-[#f4f4f5] flex flex-col selection:bg-[#fff800]/20 selection:text-white">
       <Navbar />
 
       {/* Live Ticker Marquee */}
       {tickers.length > 0 && <TickerBar tickers={tickers} />}
 
-      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 flex-grow">
 
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-              <Globe className="w-7 h-7 text-blue-400" />
+            <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-white flex items-center gap-2">
+              <Globe className="w-7 h-7 text-[#fff800]" />
               Real-Time Global Markets
             </h1>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Live prices for {tickers.length} instruments across {categories.length - 1} global asset classes
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/25 rounded-xl px-4 py-2">
-              <Wifi className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-              <span className="text-xs font-semibold text-emerald-400">LIVE</span>
-              <span className="text-xs text-gray-400 font-mono">#{liveCount}</span>
+            <div className="flex items-center gap-2 bg-[#182222] border border-border rounded-md px-3.5 py-1.5">
+              <Wifi className="w-3.5 h-3.5 text-[#fff800] animate-pulse" />
+              <span className="text-xs font-semibold text-[#fff800]">LIVE</span>
+              <span className="text-xs text-muted-foreground font-mono">#{liveCount}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-gray-400">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Clock className="w-3.5 h-3.5" />
               <span className="font-mono">{lastUpdate.toLocaleTimeString()}</span>
             </div>
@@ -378,19 +378,19 @@ export default function MarketsPage() {
         {/* Market Pulse Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: "Total Instruments", value: tickers.length.toString(), icon: BarChart2, color: "text-blue-400", bg: "from-blue-500/10 to-indigo-500/10 border-blue-500/20" },
-            { label: "Advancing", value: gainers.toString(), icon: TrendingUp, color: "text-emerald-400", bg: "from-emerald-500/10 to-green-500/10 border-emerald-500/20" },
-            { label: "Declining", value: losers.toString(), icon: TrendingDown, color: "text-red-400", bg: "from-red-500/10 to-rose-500/10 border-red-500/20" },
-            { label: "Avg Change", value: `${Number(avgChange) >= 0 ? "+" : ""}${avgChange}%`, icon: Activity, color: Number(avgChange) >= 0 ? "text-emerald-400" : "text-red-400", bg: "from-purple-500/10 to-violet-500/10 border-purple-500/20" },
+            { label: "Total Instruments", value: tickers.length.toString(), icon: BarChart2, color: "text-white" },
+            { label: "Advancing", value: gainers.toString(), icon: TrendingUp, color: "text-emerald-400" },
+            { label: "Declining", value: losers.toString(), icon: TrendingDown, color: "text-rose-400" },
+            { label: "Avg Change", value: `${Number(avgChange) >= 0 ? "+" : ""}${avgChange}%`, icon: Activity, color: Number(avgChange) >= 0 ? "text-emerald-400" : "text-rose-400" },
           ].map(stat => {
             const Icon = stat.icon;
             return (
-              <div key={stat.label} className={`glass-card rounded-2xl p-4 border bg-gradient-to-br ${stat.bg}`}>
+              <div key={stat.label} className="rounded-lg bg-[#0f1515]/70 backdrop-blur-[6px] p-5 border border-border pricing-card-border">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-400 font-medium">{stat.label}</span>
+                  <span className="text-xs text-muted-foreground font-medium">{stat.label}</span>
                   <Icon className={`w-4 h-4 ${stat.color}`} />
                 </div>
-                <div className={`text-2xl font-bold mt-2 ${stat.color}`}>{stat.value}</div>
+                <div className={`text-2xl font-bold mt-2 font-mono ${stat.color}`}>{stat.value}</div>
               </div>
             );
           })}
@@ -399,16 +399,15 @@ export default function MarketsPage() {
         {/* Category Pills */}
         <div className="flex flex-wrap gap-2">
           {categories.map(cat => {
-            const grad = cat === "All" ? "from-gray-600 to-gray-700" : CATEGORY_COLORS[cat] ?? "from-gray-600 to-gray-700";
             const active = category === cat;
             return (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all border ${
+                className={`px-3.5 py-1.5 rounded-sm text-xs font-medium transition-all border ${
                   active
-                    ? `bg-gradient-to-r ${grad} text-white border-transparent shadow-lg`
-                    : "bg-gray-900 text-gray-400 border-gray-800 hover:border-gray-600 hover:text-gray-200"
+                    ? "bg-[#182222] text-foreground border-border/80 shadow-xs font-semibold"
+                    : "bg-[#0f1515] text-muted-foreground border-border hover:border-border-light hover:text-foreground"
                 }`}
               >
                 {cat}
@@ -421,23 +420,23 @@ export default function MarketsPage() {
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search symbol, name, exchange, sector..."
-              className="w-full bg-gray-900 border border-gray-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-blue-500 focus:outline-none transition-colors"
+              className="w-full bg-[#182222] border border-border rounded-md pl-10 pr-4 py-2 text-xs text-white focus:border-border-light focus:outline-none transition-colors"
             />
           </div>
 
           {/* Sector Filter */}
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
             <select
               value={sector}
               onChange={e => setSector(e.target.value)}
-              className="bg-gray-900 border border-gray-800 rounded-xl pl-9 pr-8 py-2.5 text-sm text-gray-300 focus:border-blue-500 focus:outline-none appearance-none cursor-pointer min-w-[160px]"
+              className="bg-[#182222] border border-border rounded-md pl-9 pr-8 py-2 text-xs text-slate-300 focus:border-border-light focus:outline-none appearance-none cursor-pointer min-w-[160px]"
             >
               {sectors.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
@@ -446,87 +445,86 @@ export default function MarketsPage() {
           {/* Watchlist Toggle */}
           <button
             onClick={() => setShowStarred(v => !v)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-md border text-xs font-medium transition-all ${
               showStarred
-                ? "bg-yellow-500/10 border-yellow-500/40 text-yellow-400"
-                : "bg-gray-900 border-gray-800 text-gray-400 hover:text-gray-200"
+                ? "bg-[#182222] border-[#fff800]/40 text-[#fff800]"
+                : "bg-[#182222] border-border text-muted-foreground hover:text-foreground"
             }`}
           >
-            <Star className="w-4 h-4" />
-            Watchlist
+            <Star className="w-3.5 h-3.5" />
+            <span>Watchlist</span>
           </button>
         </div>
 
         {/* Showing count */}
-        <div className="flex items-center gap-2 text-xs text-gray-500">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Eye className="w-3.5 h-3.5" />
-          <span>Showing <span className="text-gray-300 font-semibold">{filtered.length}</span> of {tickers.length} instruments</span>
+          <span>Showing <span className="text-foreground font-semibold">{filtered.length}</span> of {tickers.length} instruments</span>
         </div>
 
         {/* Main Table */}
-        <div className="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+        <div className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] border border-border overflow-hidden pricing-card-border">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-gray-800 bg-gray-900/50">
-                  <th className="px-4 py-3 text-left w-8"></th>
-                  <th className="px-4 py-3 text-left">
-                    <button onClick={() => handleSort("symbol")} className="flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-gray-200 uppercase tracking-wider">
+                <tr className="border-b border-border bg-[#182222]/60">
+                  <th className="px-4 py-3.5 text-left w-8"></th>
+                  <th className="px-4 py-3.5 text-left">
+                    <button onClick={() => handleSort("symbol")} className="flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider">
                       Symbol <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-left hidden lg:table-cell">
-                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Category / Sector</span>
+                  <th className="px-4 py-3.5 text-left hidden lg:table-cell">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Category / Sector</span>
                   </th>
-                  <th className="px-4 py-3 text-right">
-                    <button onClick={() => handleSort("price")} className="flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-gray-200 uppercase tracking-wider ml-auto">
+                  <th className="px-4 py-3.5 text-right">
+                    <button onClick={() => handleSort("price")} className="flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider ml-auto">
                       Price <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-right">
-                    <button onClick={() => handleSort("changePct")} className="flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-gray-200 uppercase tracking-wider ml-auto">
+                  <th className="px-4 py-3.5 text-right">
+                    <button onClick={() => handleSort("changePct")} className="flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider ml-auto">
                       Change <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-center hidden sm:table-cell">
-                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">7D Chart</span>
+                  <th className="px-4 py-3.5 text-center hidden sm:table-cell">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">7D Chart</span>
                   </th>
-                  <th className="px-4 py-3 text-right hidden md:table-cell">
-                    <button onClick={() => handleSort("volume")} className="flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-gray-200 uppercase tracking-wider ml-auto">
+                  <th className="px-4 py-3.5 text-right hidden md:table-cell">
+                    <button onClick={() => handleSort("volume")} className="flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider ml-auto">
                       Volume <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-right hidden lg:table-cell">
-                    <button onClick={() => handleSort("marketCap")} className="flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-gray-200 uppercase tracking-wider ml-auto">
+                  <th className="px-4 py-3.5 text-right hidden lg:table-cell">
+                    <button onClick={() => handleSort("marketCap")} className="flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider ml-auto">
                       Mkt Cap <ArrowUpDown className="w-3 h-3" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-right hidden xl:table-cell">
-                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">52W Range</span>
+                  <th className="px-4 py-3.5 text-right hidden xl:table-cell">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">52W Range</span>
                   </th>
-                  <th className="px-4 py-3 text-center hidden md:table-cell">
-                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Exchange</span>
+                  <th className="px-4 py-3.5 text-center hidden md:table-cell">
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Exchange</span>
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800/60">
+              <tbody className="divide-y divide-border/40">
                 {filtered.map(ticker => {
                   const pos = ticker.changePct >= 0;
                   const rangePos = ticker.high52w > ticker.low52w
                     ? ((ticker.price - ticker.low52w) / (ticker.high52w - ticker.low52w)) * 100
                     : 50;
                   const currSym = CURRENCY_SYMBOL[ticker.currency] || "";
-                  const catGrad = CATEGORY_COLORS[ticker.category] ?? "from-gray-500 to-gray-600";
                   return (
                     <tr
                       key={ticker.symbol}
-                      className="hover:bg-gray-800/30 transition-colors group"
+                      className="hover:bg-[#182222]/30 transition-colors group"
                     >
                       {/* Star */}
                       <td className="px-4 py-3">
                         <button
                           onClick={() => toggleStar(ticker.symbol)}
-                          className={`transition-colors ${ticker.starred ? "text-yellow-400" : "text-gray-700 group-hover:text-gray-500"}`}
+                          className={`transition-colors ${ticker.starred ? "text-[#fff800]" : "text-muted-foreground/40 group-hover:text-muted-foreground"}`}
                         >
                           {ticker.starred ? <Star className="w-3.5 h-3.5 fill-current" /> : <StarOff className="w-3.5 h-3.5" />}
                         </button>
@@ -535,41 +533,41 @@ export default function MarketsPage() {
                       {/* Symbol + Name */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-lg bg-gradient-to-tr ${catGrad} flex items-center justify-center text-white text-[10px] font-bold shrink-0 shadow-md`}>
+                          <div className="w-8 h-8 rounded-md bg-[#182222] border border-border flex items-center justify-center text-white text-[11px] font-bold shrink-0 font-mono">
                             {ticker.symbol.substring(0, 2).toUpperCase()}
                           </div>
                           <div className="min-w-0">
-                            <div className="font-bold text-white text-sm font-mono">{ticker.symbol}</div>
-                            <div className="text-xs text-gray-400 truncate max-w-[140px]">{ticker.name}</div>
+                            <div className="font-bold text-white text-xs font-mono">{ticker.symbol}</div>
+                            <div className="text-[11px] text-muted-foreground truncate max-w-[140px]">{ticker.name}</div>
                           </div>
                         </div>
                       </td>
 
                       {/* Category / Sector */}
                       <td className="px-4 py-3 hidden lg:table-cell">
-                        <div className="space-y-1">
-                          <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${catGrad} text-white`}>
+                        <div className="space-y-0.5">
+                          <span className="inline-block text-[10px] font-mono font-medium px-2 py-0.5 rounded-sm bg-[#182222] text-[#fff800] border border-border">
                             {ticker.category}
                           </span>
-                          <div className="text-xs text-gray-500">{ticker.sector}</div>
+                          <div className="text-[11px] text-muted-foreground">{ticker.sector}</div>
                         </div>
                       </td>
 
                       {/* Price */}
                       <td className="px-4 py-3 text-right">
-                        <div className={`font-bold font-mono text-sm ${pos ? "text-white" : "text-white"}`}>
+                        <div className="font-bold font-mono text-xs text-white">
                           {currSym}{fmtPrice(ticker.price, ticker.currency)}
                         </div>
-                        <div className="text-[10px] text-gray-500">{ticker.currency}</div>
+                        <div className="text-[10px] text-muted-foreground font-mono">{ticker.currency}</div>
                       </td>
 
                       {/* Change */}
                       <td className="px-4 py-3 text-right">
-                        <div className={`flex items-center justify-end gap-1 font-semibold text-sm ${pos ? "text-emerald-400" : "text-red-400"}`}>
+                        <div className={`flex items-center justify-end gap-0.5 font-bold font-mono text-xs ${pos ? "text-emerald-400" : "text-rose-400"}`}>
                           {pos ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           <span>{pos ? "+" : ""}{ticker.changePct.toFixed(2)}%</span>
                         </div>
-                        <div className={`text-[10px] text-right ${pos ? "text-emerald-500/70" : "text-red-500/70"}`}>
+                        <div className={`text-[10px] text-right font-mono ${pos ? "text-emerald-500/70" : "text-rose-500/70"}`}>
                           {pos ? "+" : ""}{currSym}{fmtPrice(Math.abs(ticker.change), ticker.currency)}
                         </div>
                       </td>
@@ -583,14 +581,14 @@ export default function MarketsPage() {
 
                       {/* Volume */}
                       <td className="px-4 py-3 text-right hidden md:table-cell">
-                        <span className="text-sm text-gray-300 font-mono">
+                        <span className="text-xs text-slate-300 font-mono">
                           {ticker.volume > 0 ? formatNum(ticker.volume) : "—"}
                         </span>
                       </td>
 
                       {/* Market Cap */}
                       <td className="px-4 py-3 text-right hidden lg:table-cell">
-                        <span className="text-sm text-gray-300 font-mono">
+                        <span className="text-xs text-slate-300 font-mono">
                           {ticker.marketCap > 0 ? `${currSym}${formatNum(ticker.marketCap)}` : "—"}
                         </span>
                       </td>
@@ -598,17 +596,17 @@ export default function MarketsPage() {
                       {/* 52W Range Bar */}
                       <td className="px-4 py-3 hidden xl:table-cell">
                         <div className="w-28">
-                          <div className="flex justify-between text-[10px] text-gray-500 mb-1 font-mono">
+                          <div className="flex justify-between text-[10px] text-muted-foreground mb-1 font-mono">
                             <span>{currSym}{fmtPrice(ticker.low52w, ticker.currency)}</span>
                             <span>{currSym}{fmtPrice(ticker.high52w, ticker.currency)}</span>
                           </div>
-                          <div className="h-1.5 bg-gray-800 rounded-full relative">
+                          <div className="h-1 bg-[#182222] rounded-full relative">
                             <div
-                              className={`h-full bg-gradient-to-r ${catGrad} rounded-full`}
+                              className="h-full bg-[#fff800] rounded-full"
                               style={{ width: `${Math.max(2, Math.min(100, rangePos))}%` }}
                             />
                             <div
-                              className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white border border-gray-600 shadow"
+                              className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white border border-border shadow"
                               style={{ left: `calc(${Math.max(2, Math.min(98, rangePos))}% - 4px)` }}
                             />
                           </div>
@@ -617,7 +615,7 @@ export default function MarketsPage() {
 
                       {/* Exchange */}
                       <td className="px-4 py-3 text-center hidden md:table-cell">
-                        <span className="text-xs font-mono font-medium text-gray-400 bg-gray-900 rounded-lg px-2 py-1 border border-gray-800">
+                        <span className="text-[10px] font-mono font-medium text-muted-foreground bg-[#182222] rounded-sm px-2 py-0.5 border border-border">
                           {ticker.exchange}
                         </span>
                       </td>
@@ -628,9 +626,9 @@ export default function MarketsPage() {
             </table>
 
             {filtered.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-                <Search className="w-10 h-10 mb-3 text-gray-700" />
-                <p className="font-semibold">No instruments match your filters</p>
+              <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+                <Search className="w-10 h-10 mb-3 text-muted-foreground/40" />
+                <p className="font-semibold text-white">No instruments match your filters</p>
                 <p className="text-xs mt-1">Try changing the category, sector, or search term</p>
               </div>
             )}
@@ -638,12 +636,12 @@ export default function MarketsPage() {
         </div>
 
         {/* Footer info banner */}
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 py-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground py-2">
           <span className="flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-cyan-400" />
+            <Zap className="w-3.5 h-3.5 text-[#fff800]" />
             Live streaming prices update every 1.5s via Redis Pub/Sub. For algorithmic strategy deployment.
           </span>
-          <span className="font-mono text-cyan-400">SIRUS DMA Active</span>
+          <span className="font-mono text-[#fff800]">SIRUS DMA Active</span>
         </div>
       </main>
 

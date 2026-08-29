@@ -31,13 +31,13 @@ export default function FaqSection() {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-6 sm:px-8">
         {/* Header */}
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            Frequently Asked <span className="text-gradient-cyan">Questions</span>
+          <h2 className="text-[32px] leading-[36px] md:text-[56px] md:leading-[60px] tracking-[-1.6px] font-medium text-white">
+            Frequently asked questions.
           </h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-[16px] text-muted-foreground">
             Everything you need to know about our quantitative engine, broker connectivity, and execution security.
           </p>
         </div>
@@ -49,18 +49,18 @@ export default function FaqSection() {
             return (
               <div
                 key={idx}
-                className="launch-card rounded-2xl border border-white/[0.08] overflow-hidden transition-all"
+                className="rounded-lg bg-[#0f1515]/75 backdrop-blur-[6px] border border-border overflow-hidden transition-all pricing-card-border"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 transition-colors hover:bg-slate-900/40"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 transition-colors hover:bg-[#182222]/30"
                 >
-                  <span className="text-sm sm:text-base font-bold text-white leading-snug">
+                  <span className="text-base font-semibold text-white leading-snug">
                     {faq.q}
                   </span>
                   <div
-                    className={`p-2 rounded-xl bg-slate-900 border border-white/[0.06] text-cyan-400 transition-transform duration-200 ${
-                      isOpen ? "rotate-180 bg-cyan-500/10 border-cyan-500/30" : ""
+                    className={`p-2 rounded-md bg-[#182222] border border-border text-[#fff800] transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />
@@ -68,7 +68,7 @@ export default function FaqSection() {
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 pt-2 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-white/[0.04]">
+                  <div className="px-6 pb-6 pt-2 text-sm text-muted-foreground leading-relaxed border-t border-border/40">
                     {faq.a}
                   </div>
                 )}
