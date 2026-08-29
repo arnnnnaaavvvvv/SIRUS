@@ -15,8 +15,6 @@ import {
   X,
   ArrowRight,
   LogIn,
-  ArrowUpRight,
-  Zap,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -45,27 +43,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Top Paddle Announcement / Market Status Ribbon */}
-      <div className="hidden md:flex border-border/50 border-b bg-[#0f1515]/90 backdrop-blur-md">
-        <div className="flex flex-1 justify-center items-center py-2 px-4 gap-8 text-xs">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 font-medium text-foreground">
-              <span className="w-2 h-2 rounded-full bg-[#fff800] animate-pulse" />
-              <span>Direct Market Access (DMA) Active</span>
-            </div>
-            <span className="text-muted-foreground">•</span>
-            <span className="text-muted-foreground">120+ Global Venues Connected (Zerodha, Alpaca, KuCoin, IBKR)</span>
-            <Link
-              href="/markets"
-              className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-0.5 ml-2 font-medium"
-            >
-              <span>Explore live markets</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navigation Bar */}
       <nav className="border-b border-border/50 bg-[#0f1515]/80 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
@@ -116,15 +93,7 @@ export default function Navbar() {
 
           {/* Right CTA / Auth Status */}
           <div className="hidden md:flex items-center space-x-3">
-            {user ? (
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium cursor-pointer relative bg-[#fcfcfc33] text-white secondary-button-animation h-10 px-5 py-2 border border-white/10 hover:bg-white/20"
-              >
-                <span>Terminal Dashboard</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-              </Link>
-            ) : (
+            {!user ? (
               <>
                 <Link
                   href="/login"
@@ -141,6 +110,13 @@ export default function Navbar() {
                   <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                 </Link>
               </>
+            ) : (
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </Link>
             )}
           </div>
 
@@ -191,9 +167,9 @@ export default function Navbar() {
                 <Link
                   href="/dashboard"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-2.5 text-center rounded-md bg-[#fcfcfc33] border border-white/10 text-sm font-medium text-white"
+                  className="w-full py-2.5 text-center rounded-md bg-[#182222] border border-border text-sm font-medium text-white"
                 >
-                  Terminal Dashboard
+                  Dashboard
                 </Link>
               )}
             </div>

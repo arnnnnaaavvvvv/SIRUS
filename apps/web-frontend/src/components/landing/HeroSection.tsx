@@ -33,13 +33,6 @@ export default function HeroSection() {
     <section className="mx-auto max-w-7xl px-6 md:px-8 pt-16 pb-20 relative flex flex-col items-center justify-between">
       {/* Title & Subtitle */}
       <div className="text-center w-full max-w-4xl space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#182222] border border-border text-xs font-medium text-muted-foreground mb-2">
-          <span className="w-2 h-2 rounded-full bg-[#fff800]" />
-          <span className="text-foreground">Vectorized DMA Engine</span>
-          <span>•</span>
-          <span>Sub-100ms Latency</span>
-        </div>
-
         <h1 className="text-[44px] leading-[48px] md:text-[80px] md:leading-[82px] tracking-[-1.6px] font-medium text-white">
           Automated quantitative trading.<br />
           Built for systematic edge.
