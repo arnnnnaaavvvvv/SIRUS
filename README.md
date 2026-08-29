@@ -10,11 +10,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![TimescaleDB](https://img.shields.io/badge/TimescaleDB-PostgreSQL-FDB515?style=for-the-badge&logo=postgresql)](https://www.timescale.com/)
 [![Redis](https://img.shields.io/badge/Redis-Streams-DC382D?style=for-the-badge&logo=redis)](https://redis.io/)
-[![Vercel Deployed](https://img.shields.io/badge/Vercel-Production_Live-000000?style=for-the-badge&logo=vercel)](https://sirus-opal.vercel.app)
+[![Vercel Deployed](https://img.shields.io/badge/Vercel-Production_Live-000000?style=for-the-badge&logo=vercel)](https://web-frontend-three-gamma.vercel.app)
 
 <br />
 
-**[Explore Live Demo](https://sirus-opal.vercel.app)** • **[Architecture Docs](docs/ARCHITECTURE.md)** • **[API Specification](docs/API_SPECIFICATION.md)** • **[Security Model](docs/SECURITY_AND_COMPLIANCE.md)**
+**[Explore Live Demo](https://web-frontend-three-gamma.vercel.app)** • **[Architecture Docs](docs/ARCHITECTURE.md)** • **[API Specification](docs/API_SPECIFICATION.md)** • **[Security Model](docs/SECURITY_AND_COMPLIANCE.md)**
 
 </div>
 
