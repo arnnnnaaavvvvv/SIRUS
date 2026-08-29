@@ -51,11 +51,8 @@ export default function Navbar() {
             <div className="w-8 h-8 rounded-lg bg-[#182222] border border-border flex items-center justify-center group-hover:border-border-light transition-all shadow-sm">
               <TrendingUp className="w-4 h-4 text-[#fff800]" />
             </div>
-            <span className="text-lg font-bold tracking-tight text-white flex items-center gap-1">
+            <span className="text-lg font-bold tracking-tight text-white">
               SIRUS
-              <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#182222] text-[#fff800] border border-border ml-1">
-                Quant
-              </span>
             </span>
           </Link>
 
