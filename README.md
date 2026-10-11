@@ -10,12 +10,7 @@
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/arnnnnaaavvvvv/SIRUS)
 [![Vercel Deployed](https://img.shields.io/badge/Vercel-Production_Live-000000?style=flat&logo=vercel)](https://sirus-opal.vercel.app)
 
-🌐 **Live Production Deployments**:
-- **Primary Production Dashboard**: [https://sirus-opal.vercel.app](https://sirus-opal.vercel.app)
-- **Mirror Instance (2man)**: [https://sirus-2man.vercel.app](https://sirus-2man.vercel.app)
-- **Web Frontend Gamma**: [https://web-frontend-three-gamma.vercel.app](https://web-frontend-three-gamma.vercel.app)
-- **Web Frontend Nu**: [https://web-frontend-eosin-nu.vercel.app](https://web-frontend-eosin-nu.vercel.app)
-- **GitHub Repository**: [https://github.com/arnnnnaaavvvvv/SIRUS](https://github.com/arnnnnaaavvvvv/SIRUS)
+🌐 **Live Production Application**: [https://sirus-opal.vercel.app](https://sirus-opal.vercel.app)
 
 ---
 
